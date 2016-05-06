@@ -1,0 +1,10 @@
+-changed Token from class to Enum
+-changed the bootstrap process (Everything is created on the program startup, instead of clicking STart to activate it)
+-game composition with actions
+-menu composition with game
+-added action factory
+
+
+REFERENCES
+https://docs.oracle.com/javase/tutorial/uiswing/layout/visual.html
+http://docs.oracle.com/javase/tutorial/uiswing/events/mouselistener.html
