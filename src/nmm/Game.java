@@ -8,32 +8,43 @@ import java.util.List;
  */
 public class Game {
 
+    private Event event;
     private Board board;
     private Player player1;
     private Player player2;
     private List<Action> actions = new ArrayList<>();
     private ActionFactory actionFactory;
-    private Event event;
 
-    public Game() {
-        event = new Event();
+    public Game(Event event) {
+        this.event = event;
         board = new Board();
         actionFactory = new ActionFactory();
-
-        /*
-        setLayout(new BorderLayout());
-        status = new JLabel("STATUS: ");
-        add(status, BorderLayout.PAGE_START);
-        add(board, BorderLayout.CENTER);
-        setBackground(Color.GRAY);*/
-
     }
 
-    public void newGame(Boolean computer, int difficulty) {
+    public void start(Boolean computer, int difficulty) {
         if (computer) {
-
+            System.out.println("Feature not implemented: Computer AI");
         } else {
-
+            player1 = new Human(true);
+            player2 = new Human(false);
+            actions.add(actionFactory.getAction(null, player1, player2, this));
+            actions.get(actions.size() - 1).start(board);
         }
+    }
+
+    public void notifyActionComplete() {
+        event.updateUI();
+
+        //while victory or mill event not encountered
+        actions.add(actionFactory.getAction(getCurrentAction(), player1, player2, this));
+        getCurrentAction().start(board);
+    }
+
+    public Action getCurrentAction() {
+        return actions.get(actions.size() - 1);
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

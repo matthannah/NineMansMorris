@@ -1,16 +1,23 @@
 package nmm;
 
+import java.awt.*;
+
 /**
  * Created by Matt on 5/05/2016.
  */
 public class Remove extends Action {
 
-    public Remove(Player player) {
-        super(player);
+    public Remove(Player player, Game game) {
+        super(player, game);
     }
 
     @Override
-    public void run(Board board) {
+    public void start(Board board) {
+
+    }
+
+    @Override
+    public void updateAction(Point p) {
 
     }
 }

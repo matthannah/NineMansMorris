@@ -6,14 +6,24 @@ package nmm;
 public class Menu {
 
     private Game game;
+    private Event event;
 
     public Menu() {
-        game = new Game();
-
+        event = new Event(this);
     }
 
     public static void main(String[] args) {
         new Menu();
     }
 
+    public void newGame() {
+        System.out.println("Starting new game...");
+        game = new Game(event);
+        event.newGame(game);
+        game.start(event.isComputer(), 0);
+    }
+
+    public Event getEvent() {
+        return event;
+    }
 }

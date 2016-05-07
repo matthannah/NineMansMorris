@@ -1,9 +1,9 @@
 -changed Token from class to Enum
--changed the bootstrap process (Everything is created on the program startup, instead of clicking STart to activate it)
--game composition with actions
--menu composition with game
 -added action factory
-
+-menu has a game, but game doesn't have a menu, therefore change in UML to aggregation
+-event has an association with menu
+-moved responsibilities of determining player turn to actionFactory
+--action updates the player instead of game
 
 REFERENCES
 https://docs.oracle.com/javase/tutorial/uiswing/layout/visual.html
