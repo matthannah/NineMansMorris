@@ -9,12 +9,14 @@ import java.util.List;
 public abstract class Player {
 
     private List<Token> tokens = new ArrayList<>();
+    private int placedCount;
     private Boolean tokensPlaced;
     private Boolean turn;
     private Boolean player1;
     private Boolean human;
 
     public Player(Boolean player1, Boolean human) {
+        placedCount = 0;
         this.human = human;
         this.player1 = player1;
         tokensPlaced = false;
@@ -26,6 +28,8 @@ public abstract class Player {
     public abstract void slideToken(Intersection startIntersection, Intersection finalIntersection);
 
     public abstract void removeToken(Intersection intersection);
+
+    public abstract void hopToken(Intersection startIntersection, Intersection finalIntersection);
 
     public Boolean tokensPlaced() {
         return tokensPlaced;
@@ -57,5 +61,13 @@ public abstract class Player {
 
     public Boolean isHuman() {
         return human;
+    }
+
+    public void incrementPlacedCount() {
+        placedCount++;
+    }
+
+    public int getPlacedCount() {
+        return placedCount;
     }
 }

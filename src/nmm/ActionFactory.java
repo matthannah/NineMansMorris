@@ -24,7 +24,12 @@ public class ActionFactory {
             //determine action
             if (game.getBoard().isMillEvent(lastAction)) {
                 System.out.println("Creating remove action...");
-                action = new Remove(lastAction.getPlayer(), game);
+                if (lastAction.getPlayer().isPlayer1()) {
+                    action = new Remove(player1, player2, game);
+                } else {
+                    action = new Remove(player2, player1, game);
+                }
+
             }
             else if (!player.tokensPlaced()) {
                 System.out.println("Creating place action...");
@@ -34,7 +39,7 @@ public class ActionFactory {
                     System.out.println("Creating slide action...");
                     action = new Slide(player, game);
                 } else {
-                    System.out.println("Creating slide action...");
+                    System.out.println("Creating hop action...");
                     action = new Hop(player, game);
                 }
             }

@@ -14,8 +14,8 @@ public class Human extends Player {
         Token placedToken = new Token(intersection, isPlayer1());
         placedToken.setIntersection(intersection);
         getTokens().add(placedToken);
-        System.out.println("Token count: " + getTokens().size());
-        if (getTokenCount() > 8) {
+        incrementPlacedCount();
+        if (getPlacedCount() > 8) {
             setTokensPlaced(true);
         }
     }
@@ -29,5 +29,11 @@ public class Human extends Player {
     @Override
     public void removeToken(Intersection intersection) {
         intersection.getToken().removeToken(intersection);
+    }
+
+    @Override
+    public void hopToken(Intersection startIntersection, Intersection finalIntersection) {
+        startIntersection.getToken().setIntersection(finalIntersection);
+        startIntersection.setToken(null);
     }
 }

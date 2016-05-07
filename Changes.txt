@@ -8,3 +8,5 @@
 REFERENCES
 https://docs.oracle.com/javase/tutorial/uiswing/layout/visual.html
 http://docs.oracle.com/javase/tutorial/uiswing/events/mouselistener.html
+
+REMEMBER TO REMVOE MILL BOOLEAN IN TOKEN IF A TOKEN THAT IS IN A MILL SLIDES

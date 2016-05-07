@@ -12,6 +12,7 @@ public class Hop extends Action {
 
     public Hop(Player player, Game game) {
         super(player, game);
+        tokenSelected = false;
     }
 
     @Override
@@ -24,7 +25,7 @@ public class Hop extends Action {
                 setFinalIntersection(intersectionSelected);
                 setComplete(true);
                 System.out.println("Slide token from " + startIntersection.getPoint().getX() + ", " + startIntersection.getPoint().getY() + " to " + getFinalIntersection().getPoint().getX() + " ," + getFinalIntersection().getPoint().getY());
-                getPlayer().slideToken(startIntersection, getFinalIntersection());
+                getPlayer().hopToken(startIntersection, getFinalIntersection());
                 getFinalIntersection().getToken().setSelected(false);
                 getGame().notifyActionUpdate();
             } else {

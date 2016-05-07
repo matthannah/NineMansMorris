@@ -8,8 +8,10 @@ public class Token {
     Intersection intersection;
     Boolean player1;
     Boolean selected;
+    int millCount;
 
     public Token(Intersection intersection, Boolean player1) {
+        millCount = 0;
         this.player1 = player1;
         this.intersection = intersection;
         intersection.setToken(this);
@@ -36,5 +38,17 @@ public class Token {
     public void removeToken(Intersection intersection) {
         intersection.setToken(null);
         this.intersection = null;
+    }
+
+    public void incrementMillCount() {
+        millCount++;
+    }
+
+    public void decrementMillCount() {
+        millCount--;
+    }
+
+    public Boolean isInMill() {
+        return millCount > 0;
     }
 }

@@ -36,10 +36,16 @@ public class Game {
     public void notifyActionUpdate() {
         event.updateUI();
 
-        if (getCurrentAction().isComplete())
+        if (player1.getTokenCount() < 3 && player1.tokensPlaced()) {
+            event.gameComplete("Player 2 wins");
+        }
+        else if (player2.getTokenCount() < 3 && player1.tokensPlaced()) {
+            event.gameComplete("Player 1 wins");
+        }
+        else if (getCurrentAction().isComplete())
         {
-                actions.add(actionFactory.getAction(getCurrentAction(), player1, player2, this));
-                getCurrentAction().start(board);
+            actions.add(actionFactory.getAction(getCurrentAction(), player1, player2, this));
+            getCurrentAction().start(board);
         }
     }
 

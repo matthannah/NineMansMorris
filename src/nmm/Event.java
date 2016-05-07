@@ -35,6 +35,8 @@ public class Event extends JFrame implements MouseListener {
     static final int TOKEN_RADIUS = 17;
     static final int TOKEN_DIAMETER = TOKEN_RADIUS * 2;
 
+    private Boolean gameOver = true;
+
     //Intersection locations
     Point a1;
     Point a4;
@@ -82,7 +84,7 @@ public class Event extends JFrame implements MouseListener {
 
         //Game panel
         gamePanel = new JPanel(new BorderLayout());
-        statusLabel = new JLabel("STATUS: ");
+        statusLabel = new JLabel("");
         boardPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -93,67 +95,69 @@ public class Event extends JFrame implements MouseListener {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke(new BasicStroke(10));
 
-                //Vertical Lines
-                g2.draw(new Line2D.Double(a1.getX(), a1.getY(), a7.getX(), a7.getY()));
-                g2.draw(new Line2D.Double(b2.getX(), b2.getY(), b6.getX(), b6.getY()));
-                g2.draw(new Line2D.Double(c3.getX(), c3.getY(), c5.getX(), c5.getY()));
-                g2.draw(new Line2D.Double(d1.getX(), d1.getY(), d3.getX(), d3.getY()));
-                g2.draw(new Line2D.Double(d5.getX(), d5.getY(), d7.getX(), d7.getY()));
-                g2.draw(new Line2D.Double(e3.getX(), e3.getY(), e5.getX(), e5.getY()));
-                g2.draw(new Line2D.Double(f2.getX(), f2.getY(), f6.getX(), f6.getY()));
-                g2.draw(new Line2D.Double(g1.getX(), g1.getY(), g7.getX(), g7.getY()));
+                if (!gameOver) {
+                    //Vertical Lines
+                    g2.draw(new Line2D.Double(a1.getX(), a1.getY(), a7.getX(), a7.getY()));
+                    g2.draw(new Line2D.Double(b2.getX(), b2.getY(), b6.getX(), b6.getY()));
+                    g2.draw(new Line2D.Double(c3.getX(), c3.getY(), c5.getX(), c5.getY()));
+                    g2.draw(new Line2D.Double(d1.getX(), d1.getY(), d3.getX(), d3.getY()));
+                    g2.draw(new Line2D.Double(d5.getX(), d5.getY(), d7.getX(), d7.getY()));
+                    g2.draw(new Line2D.Double(e3.getX(), e3.getY(), e5.getX(), e5.getY()));
+                    g2.draw(new Line2D.Double(f2.getX(), f2.getY(), f6.getX(), f6.getY()));
+                    g2.draw(new Line2D.Double(g1.getX(), g1.getY(), g7.getX(), g7.getY()));
 
-                //Horizontal Lines
-                g2.draw(new Line2D.Double(a1.getX(), a1.getY(), g1.getX(), g1.getY()));
-                g2.draw(new Line2D.Double(b2.getX(), b2.getY(), f2.getX(), f2.getY()));
-                g2.draw(new Line2D.Double(c3.getX(), c3.getY(), e3.getX(), e3.getY()));
-                g2.draw(new Line2D.Double(a4.getX(), a4.getY(), c4.getX(), c4.getY()));
-                g2.draw(new Line2D.Double(e4.getX(), e4.getY(), g4.getX(), g4.getY()));
-                g2.draw(new Line2D.Double(c5.getX(), c5.getY(), e5.getX(), e5.getY()));
-                g2.draw(new Line2D.Double(b6.getX(), b6.getY(), f6.getX(), f6.getY()));
-                g2.draw(new Line2D.Double(a7.getX(), a7.getY(), g7.getX(), g7.getY()));
+                    //Horizontal Lines
+                    g2.draw(new Line2D.Double(a1.getX(), a1.getY(), g1.getX(), g1.getY()));
+                    g2.draw(new Line2D.Double(b2.getX(), b2.getY(), f2.getX(), f2.getY()));
+                    g2.draw(new Line2D.Double(c3.getX(), c3.getY(), e3.getX(), e3.getY()));
+                    g2.draw(new Line2D.Double(a4.getX(), a4.getY(), c4.getX(), c4.getY()));
+                    g2.draw(new Line2D.Double(e4.getX(), e4.getY(), g4.getX(), g4.getY()));
+                    g2.draw(new Line2D.Double(c5.getX(), c5.getY(), e5.getX(), e5.getY()));
+                    g2.draw(new Line2D.Double(b6.getX(), b6.getY(), f6.getX(), f6.getY()));
+                    g2.draw(new Line2D.Double(a7.getX(), a7.getY(), g7.getX(), g7.getY()));
 
-                //Draw Intersections
-                g2.fillOval((int) a1.getX() - CIRCLE_RADIUS, (int) a1.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) a4.getX() - CIRCLE_RADIUS, (int) a4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) a7.getX() - CIRCLE_RADIUS, (int) a7.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) b2.getX() - CIRCLE_RADIUS, (int) b2.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) b4.getX() - CIRCLE_RADIUS, (int) b4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) b6.getX() - CIRCLE_RADIUS, (int) b6.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) c3.getX() - CIRCLE_RADIUS, (int) c3.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) c4.getX() - CIRCLE_RADIUS, (int) c4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) c5.getX() - CIRCLE_RADIUS, (int) c5.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) d1.getX() - CIRCLE_RADIUS, (int) d1.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) d2.getX() - CIRCLE_RADIUS, (int) d2.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) d3.getX() - CIRCLE_RADIUS, (int) d3.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) d5.getX() - CIRCLE_RADIUS, (int) d5.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) d6.getX() - CIRCLE_RADIUS, (int) d6.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) d7.getX() - CIRCLE_RADIUS, (int) d7.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) e3.getX() - CIRCLE_RADIUS, (int) e3.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) e4.getX() - CIRCLE_RADIUS, (int) e4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) e5.getX() - CIRCLE_RADIUS, (int) e5.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) f2.getX() - CIRCLE_RADIUS, (int) f2.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) f4.getX() - CIRCLE_RADIUS, (int) f4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) f6.getX() - CIRCLE_RADIUS, (int) f6.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) g1.getX() - CIRCLE_RADIUS, (int) g1.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) g4.getX() - CIRCLE_RADIUS, (int) g4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-                g2.fillOval((int) g7.getX() - CIRCLE_RADIUS, (int) g7.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    //Draw Intersections
+                    g2.fillOval((int) a1.getX() - CIRCLE_RADIUS, (int) a1.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) a4.getX() - CIRCLE_RADIUS, (int) a4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) a7.getX() - CIRCLE_RADIUS, (int) a7.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) b2.getX() - CIRCLE_RADIUS, (int) b2.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) b4.getX() - CIRCLE_RADIUS, (int) b4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) b6.getX() - CIRCLE_RADIUS, (int) b6.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) c3.getX() - CIRCLE_RADIUS, (int) c3.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) c4.getX() - CIRCLE_RADIUS, (int) c4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) c5.getX() - CIRCLE_RADIUS, (int) c5.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) d1.getX() - CIRCLE_RADIUS, (int) d1.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) d2.getX() - CIRCLE_RADIUS, (int) d2.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) d3.getX() - CIRCLE_RADIUS, (int) d3.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) d5.getX() - CIRCLE_RADIUS, (int) d5.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) d6.getX() - CIRCLE_RADIUS, (int) d6.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) d7.getX() - CIRCLE_RADIUS, (int) d7.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) e3.getX() - CIRCLE_RADIUS, (int) e3.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) e4.getX() - CIRCLE_RADIUS, (int) e4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) e5.getX() - CIRCLE_RADIUS, (int) e5.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) f2.getX() - CIRCLE_RADIUS, (int) f2.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) f4.getX() - CIRCLE_RADIUS, (int) f4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) f6.getX() - CIRCLE_RADIUS, (int) f6.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) g1.getX() - CIRCLE_RADIUS, (int) g1.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) g4.getX() - CIRCLE_RADIUS, (int) g4.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+                    g2.fillOval((int) g7.getX() - CIRCLE_RADIUS, (int) g7.getY() - CIRCLE_RADIUS, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
 
-                //Draw Tokens
-                if (game != null) {
-                    Map<String, Intersection> intersections = game.getBoard().getIntersections();
-                    List<String> intersectionIDs = game.getBoard().getIntersectionIDs();
-                    for (String intersectionID : intersectionIDs) {
-                        if (intersections.get(intersectionID).getToken() != null) {
-                            if (intersections.get(intersectionID).getToken().isSelected()) {
-                                g2.setColor(Color.YELLOW);
-                                g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
-                            } else if (intersections.get(intersectionID).getToken().isPlayer1()) {
-                                g2.setColor(Color.RED);
-                                g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
-                            } else {
-                                g2.setColor(Color.BLUE);
-                                g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
+                    //Draw Tokens
+                    if (game != null) {
+                        Map<String, Intersection> intersections = game.getBoard().getIntersections();
+                        List<String> intersectionIDs = game.getBoard().getIntersectionIDs();
+                        for (String intersectionID : intersectionIDs) {
+                            if (intersections.get(intersectionID).getToken() != null) {
+                                if (intersections.get(intersectionID).getToken().isSelected()) {
+                                    g2.setColor(Color.YELLOW);
+                                    g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
+                                } else if (intersections.get(intersectionID).getToken().isPlayer1()) {
+                                    g2.setColor(Color.RED);
+                                    g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
+                                } else {
+                                    g2.setColor(Color.BLUE);
+                                    g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
+                                }
                             }
                         }
                     }
@@ -212,6 +216,8 @@ public class Event extends JFrame implements MouseListener {
     }
 
     public void newGame(Game game) {
+        statusLabel.setText("");
+        gameOver = false;
         this.game = game;
     }
 
@@ -373,6 +379,11 @@ public class Event extends JFrame implements MouseListener {
             return new Point(7, 7);
         }
         return null;
+    }
+
+    public void gameComplete(String message) {
+        statusLabel.setText(message);
+        gameOver = true;
     }
 
     public void updateUI() {

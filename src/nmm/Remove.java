@@ -1,14 +1,18 @@
 package nmm;
 
 import java.awt.*;
+import java.util.List;
 
 /**
  * Created by Matt on 5/05/2016.
  */
 public class Remove extends Action {
 
-    public Remove(Player player, Game game) {
+    private Player victimPlayer;
+
+    public Remove(Player player, Player victimPlayer, Game game) {
         super(player, game);
+        this.victimPlayer = victimPlayer;
     }
 
     @Override
@@ -17,10 +21,11 @@ public class Remove extends Action {
 
         Intersection intersectionSelected = getGame().getBoard().getIntersection(p);
 
-        if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() == getPlayer().isPlayer1()) {
+        if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() != getPlayer().isPlayer1() && !intersectionSelected.getToken().isInMill()) {
             setFinalIntersection(intersectionSelected);
             setComplete(true);
             System.out.println("Removed token from " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
+            victimPlayer.getTokens().remove(getFinalIntersection().getToken());
             getPlayer().removeToken(getFinalIntersection());
             getGame().notifyActionUpdate();
         } else {

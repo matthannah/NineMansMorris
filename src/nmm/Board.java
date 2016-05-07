@@ -160,6 +160,13 @@ public class Board {
         adjacents.add(intersections.get("d7"));
         intersections.get("d6").setAdjacentIntersections(adjacents);
 
+        //d7
+        adjacents = new ArrayList<>();
+        adjacents.add(intersections.get("a7"));
+        adjacents.add(intersections.get("d6"));
+        adjacents.add(intersections.get("g7"));
+        intersections.get("d7").setAdjacentIntersections(adjacents);
+
         //e3
         adjacents = new ArrayList<>();
         adjacents.add(intersections.get("d3"));
@@ -241,7 +248,131 @@ public class Board {
         return (intersection1.getAdjacentIntersections().contains(intersection2));
     }
 
+    public List<Intersection> getIntersectionsInRow(double col, double row) {
+        List<Intersection> intersectionsRow = new ArrayList<>();
+        if (row == 1 && (col == 1 || col == 4 || col == 7)) {
+            intersectionsRow.add(intersections.get("a1"));
+            intersectionsRow.add(intersections.get("d1"));
+            intersectionsRow.add(intersections.get("g1"));
+        }
+        if (row == 2 && (col == 2 || col == 4 || col == 6)) {
+            intersectionsRow.add(intersections.get("b2"));
+            intersectionsRow.add(intersections.get("d2"));
+            intersectionsRow.add(intersections.get("f2"));
+        }
+        if (row == 3 && (col == 3 || col == 4 || col == 5)) {
+            intersectionsRow.add(intersections.get("c3"));
+            intersectionsRow.add(intersections.get("d3"));
+            intersectionsRow.add(intersections.get("e3"));
+        }
+        if (row == 4 && (col == 1 || col == 2 || col == 3)) {
+            intersectionsRow.add(intersections.get("a4"));
+            intersectionsRow.add(intersections.get("b4"));
+            intersectionsRow.add(intersections.get("c4"));
+        }
+        if (row == 4 && (col == 5 || col == 6 || col == 7)) {
+            intersectionsRow.add(intersections.get("e4"));
+            intersectionsRow.add(intersections.get("f4"));
+            intersectionsRow.add(intersections.get("g4"));
+        }
+        if (row == 5 && (col == 3 || col == 4 || col == 5)) {
+            intersectionsRow.add(intersections.get("c5"));
+            intersectionsRow.add(intersections.get("d5"));
+            intersectionsRow.add(intersections.get("e5"));
+        }
+        if (row == 6 && (col == 2 || col == 4 || col == 6)) {
+            intersectionsRow.add(intersections.get("b6"));
+            intersectionsRow.add(intersections.get("d6"));
+            intersectionsRow.add(intersections.get("f6"));
+        }
+        if (row == 7 && (col == 1 || col == 4 || col == 7)) {
+            intersectionsRow.add(intersections.get("a7"));
+            intersectionsRow.add(intersections.get("d7"));
+            intersectionsRow.add(intersections.get("g7"));
+        }
+        return intersectionsRow;
+    }
+
+    public List<Intersection> getIntersectionsInCol(double col, double row) {
+        List<Intersection> intersectionsCol = new ArrayList<>();
+        if (col == 1 && (row == 1 || row == 4 || row == 7)) {
+            intersectionsCol.add(intersections.get("a1"));
+            intersectionsCol.add(intersections.get("a4"));
+            intersectionsCol.add(intersections.get("a7"));
+        }
+        if (col == 2 && (row == 2 || row == 4 || row == 6)) {
+            intersectionsCol.add(intersections.get("b2"));
+            intersectionsCol.add(intersections.get("b4"));
+            intersectionsCol.add(intersections.get("b6"));
+        }
+        if (col == 3 && (row == 3 || row == 4 || row == 5)) {
+            intersectionsCol.add(intersections.get("c3"));
+            intersectionsCol.add(intersections.get("c4"));
+            intersectionsCol.add(intersections.get("c5"));
+        }
+        if (col == 4 && (row == 1 || row == 2 || row == 3)) {
+            intersectionsCol.add(intersections.get("d1"));
+            intersectionsCol.add(intersections.get("d2"));
+            intersectionsCol.add(intersections.get("d3"));
+        }
+        if (col == 4 && (row == 5 || row == 6 || row == 7)) {
+            intersectionsCol.add(intersections.get("d5"));
+            intersectionsCol.add(intersections.get("d6"));
+            intersectionsCol.add(intersections.get("d7"));
+        }
+        if (col == 5 && (row == 3 || row == 4 || row == 5)) {
+            intersectionsCol.add(intersections.get("e3"));
+            intersectionsCol.add(intersections.get("e4"));
+            intersectionsCol.add(intersections.get("e5"));
+        }
+        if (col == 6 && (row == 2 || row == 4 || row == 6)) {
+            intersectionsCol.add(intersections.get("f2"));
+            intersectionsCol.add(intersections.get("f4"));
+            intersectionsCol.add(intersections.get("f6"));
+        }
+        if (col == 7 && (row == 1 || row == 4 || row == 7)) {
+            intersectionsCol.add(intersections.get("g1"));
+            intersectionsCol.add(intersections.get("g4"));
+            intersectionsCol.add(intersections.get("g7"));
+        }
+
+        return intersectionsCol;
+    }
+
     public Boolean isMillEvent(Action lastAction) {
-        return false;
+        List<Intersection> intersectionsRow = getIntersectionsInRow(lastAction.getFinalIntersection().getPoint().getX(), lastAction.getFinalIntersection().getPoint().getY());
+        List<Intersection> intersectionsCol = getIntersectionsInCol(lastAction.getFinalIntersection().getPoint().getX(), lastAction.getFinalIntersection().getPoint().getY());
+        int i = 0;
+        int j = 0;
+        Boolean millEvent = false;
+
+        for (Intersection intersection : intersectionsRow) {
+            if (intersection.getToken() != null) {
+                if (intersection.getToken().isPlayer1() == lastAction.getPlayer().isPlayer1()) {
+                    i++;
+                }
+            }
+        }
+        if (i > 2) {
+            millEvent = true;
+            for (Intersection intersection : intersectionsRow) {
+                intersection.getToken().incrementMillCount();
+            }
+        }
+
+        for (Intersection intersection : intersectionsCol) {
+            if (intersection.getToken() != null) {
+                if (intersection.getToken().isPlayer1() == lastAction.getPlayer().isPlayer1()) {
+                    j++;
+                }
+            }
+        }
+        if (j > 2) {
+            millEvent = true;
+            for (Intersection intersection : intersectionsCol) {
+                intersection.getToken().incrementMillCount();
+            }
+        }
+        return millEvent;
     }
 }

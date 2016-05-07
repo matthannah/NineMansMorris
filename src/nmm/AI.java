@@ -23,4 +23,9 @@ public class AI extends Player {
     public void removeToken(Intersection intersection) {
 
     }
+
+    @Override
+    public void hopToken(Intersection startIntersection, Intersection finalIntersection) {
+
+    }
 }
