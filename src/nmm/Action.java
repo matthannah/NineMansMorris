@@ -8,18 +8,27 @@ import java.awt.*;
 public abstract class Action{
 
     private Player player;
-    private Boolean isComplete;
+    private Boolean complete;
     private Game game;
+    private Intersection finalIntersection;
 
     public Action(Player player, Game game) {
         this.game = game;
         this.player = player;
-        isComplete = false;
+        complete = false;
     }
 
-    public abstract void start(Board board);
+    public void start(Board board) {
+        if (getPlayer().isHuman()) {
+            getPlayer().setTurn(true);
+        } else {
+            runAIAction();
+        }
+    }
 
     public abstract void updateAction(Point p);
+
+    public abstract void runAIAction();
 
     public Player getPlayer() {
         return player;
@@ -29,7 +38,19 @@ public abstract class Action{
         return game;
     }
 
-    public void setComplete(Boolean isComplete) {
-        this.isComplete = isComplete;
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
+    }
+
+    public Boolean isComplete() {
+        return complete;
+    }
+
+    public Intersection getFinalIntersection() {
+        return finalIntersection;
+    }
+
+    public void setFinalIntersection(Intersection finalIntersection) {
+        this.finalIntersection = finalIntersection;
     }
 }

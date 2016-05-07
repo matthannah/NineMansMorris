@@ -5,12 +5,22 @@ package nmm;
  */
 public class AI extends Player {
 
-    public AI(Boolean player1) {
-        super(player1);
+    public AI(Boolean player1, Boolean human) {
+        super(player1, human);
     }
 
     @Override
     public void placeToken(Intersection intersection) {
+
+    }
+
+    @Override
+    public void slideToken(Intersection startIntersection, Intersection finalIntersection) {
+        
+    }
+
+    @Override
+    public void removeToken(Intersection intersection) {
 
     }
 }

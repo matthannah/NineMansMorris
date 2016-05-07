@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 import java.io.File;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Matt on 5/05/2016.
@@ -139,14 +141,19 @@ public class Event extends JFrame implements MouseListener {
 
                 //Draw Tokens
                 if (game != null) {
-                    for (Intersection intersection : game.getBoard().getIntersections()) {
-                        if (intersection.getToken() != null) {
-                            if (intersection.getToken().isPlayer1()) {
+                    Map<String, Intersection> intersections = game.getBoard().getIntersections();
+                    List<String> intersectionIDs = game.getBoard().getIntersectionIDs();
+                    for (String intersectionID : intersectionIDs) {
+                        if (intersections.get(intersectionID).getToken() != null) {
+                            if (intersections.get(intersectionID).getToken().isSelected()) {
+                                g2.setColor(Color.YELLOW);
+                                g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
+                            } else if (intersections.get(intersectionID).getToken().isPlayer1()) {
                                 g2.setColor(Color.RED);
-                                g2.fillOval((int) getPoint(intersection.getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersection.getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
+                                g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
                             } else {
                                 g2.setColor(Color.BLUE);
-                                g2.fillOval((int) getPoint(intersection.getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersection.getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
+                                g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
                             }
                         }
                     }

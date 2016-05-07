@@ -7,17 +7,48 @@ import java.awt.*;
  */
 public class Hop extends Action {
 
+    private Intersection startIntersection;
+    private Boolean tokenSelected;
+
     public Hop(Player player, Game game) {
         super(player, game);
     }
 
     @Override
-    public void start(Board board) {
+    public void updateAction(Point p) {
+        getPlayer().setTurn(false);
 
+        Intersection intersectionSelected = getGame().getBoard().getIntersection(p);
+        if (tokenSelected) {
+            if (intersectionSelected.isEmpty()) {
+                setFinalIntersection(intersectionSelected);
+                setComplete(true);
+                System.out.println("Slide token from " + startIntersection.getPoint().getX() + ", " + startIntersection.getPoint().getY() + " to " + getFinalIntersection().getPoint().getX() + " ," + getFinalIntersection().getPoint().getY());
+                getPlayer().slideToken(startIntersection, getFinalIntersection());
+                getFinalIntersection().getToken().setSelected(false);
+                getGame().notifyActionUpdate();
+            } else {
+                startIntersection.getToken().setSelected(false);
+                startIntersection = null;
+                tokenSelected = false;
+                getGame().notifyActionUpdate();
+                getPlayer().setTurn(true);
+            }
+        } else {
+            if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() == getPlayer().isPlayer1()) {
+                startIntersection = intersectionSelected;
+                tokenSelected = true;
+                startIntersection.getToken().setSelected(true);
+                getGame().notifyActionUpdate();
+                getPlayer().setTurn(true);
+            } else {
+                getPlayer().setTurn(true);
+            }
+        }
     }
 
     @Override
-    public void updateAction(Point p) {
+    public void runAIAction() {
 
     }
 }

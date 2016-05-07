@@ -12,20 +12,21 @@ public class ActionFactory {
         //first turn
         if (lastAction == null) {
             System.out.println("Creating place action...");
-            System.out.println("PLAYER1 TURN");
             action = new Place(player1, game);
         } else {
             //determine player turn
             if (lastAction.getPlayer() == player1) {
-                System.out.println("PLAYER2 TURN");
                 player = player2;
             } else {
-                System.out.println("PLAYER1 TURN");
                 player = player1;
             }
 
             //determine action
-            if (!player.tokensPlaced()) {
+            if (game.getBoard().isMillEvent(lastAction)) {
+                System.out.println("Creating remove action...");
+                action = new Remove(lastAction.getPlayer(), game);
+            }
+            else if (!player.tokensPlaced()) {
                 System.out.println("Creating place action...");
                 action = new Place(player, game);
             } else {

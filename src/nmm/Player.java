@@ -12,14 +12,20 @@ public abstract class Player {
     private Boolean tokensPlaced;
     private Boolean turn;
     private Boolean player1;
+    private Boolean human;
 
-    public Player(Boolean player1) {
+    public Player(Boolean player1, Boolean human) {
+        this.human = human;
         this.player1 = player1;
         tokensPlaced = false;
         turn = false;
     }
 
     public abstract void placeToken(Intersection intersection);
+
+    public abstract void slideToken(Intersection startIntersection, Intersection finalIntersection);
+
+    public abstract void removeToken(Intersection intersection);
 
     public Boolean tokensPlaced() {
         return tokensPlaced;
@@ -45,7 +51,11 @@ public abstract class Player {
         this.tokensPlaced = tokensPlaced;
     }
 
-    public Boolean getPlayer1() {
+    public Boolean isPlayer1() {
         return player1;
+    }
+
+    public Boolean isHuman() {
+        return human;
     }
 }
