@@ -2,6 +2,7 @@ package nmm;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,11 +24,13 @@ public class Event extends JFrame implements MouseListener {
     //UI
     private JPanel controlPanel;
     private JPanel gamePanel;
+    private JPanel statusPanel;
+    private JLabel statusTitleLabel;
     private JLabel statusLabel;
     private JPanel boardPanel;
     private JButton newGameButton;
     private JCheckBox computerCheckBox;
-    private Image boardImage;
+    protected JButton undoMoveButton;
 
     static final int PADDING = 40;
     static final int CIRCLE_RADIUS = 15;
@@ -84,7 +87,10 @@ public class Event extends JFrame implements MouseListener {
 
         //Game panel
         gamePanel = new JPanel(new BorderLayout());
+        statusPanel = new JPanel(new FlowLayout());
+        statusTitleLabel = new JLabel("GAME STATUS");
         statusLabel = new JLabel("");
+        undoMoveButton = new JButton("Undo Move");
         boardPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -166,18 +172,16 @@ public class Event extends JFrame implements MouseListener {
         };
         boardPanel.addMouseListener(this);
         add(gamePanel, BorderLayout.CENTER);
-        gamePanel.add(statusLabel, BorderLayout.PAGE_START);
+        statusPanel.setPreferredSize(new Dimension(250, 500));
+        statusPanel.setBorder(new LineBorder(Color.BLACK, 5, true));
+        statusPanel.add(statusTitleLabel, BorderLayout.PAGE_START);
+        statusPanel.add(statusLabel, BorderLayout.PAGE_START);
+        gamePanel.add(statusPanel, BorderLayout.LINE_END);
+        //gamePanel.add(undoMoveButton, BorderLayout.PAGE_START);
         gamePanel.add(boardPanel, BorderLayout.CENTER);
 
-
-        try {
-            boardImage = ImageIO.read(new File("src\\Images\\Board.png"));
-        } catch (Exception e) {
-            System.out.println("An error has occured: " + e);
-        }
-
         //Window
-        setSize(650, 700);
+        setSize(900, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setLayout(new BorderLayout());
