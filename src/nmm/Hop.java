@@ -49,6 +49,15 @@ public class Hop extends Action {
     }
 
     @Override
+    public void undo() {
+        setComplete(false);
+        getPlayer().removeToken(getFinalIntersection());
+        getPlayer().addToken(startIntersection);
+        getGame().notifyActionUpdate();
+        getPlayer().setTurn(true);
+    }
+
+    @Override
     public void runAIAction() {
 
     }

@@ -28,9 +28,24 @@ public class Remove extends Action {
             victimPlayer.getTokens().remove(getFinalIntersection().getToken());
             getPlayer().removeToken(getFinalIntersection());
             getGame().notifyActionUpdate();
+        } else if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() != getPlayer().isPlayer1() && getPlayer().allInMill()) {
+            setFinalIntersection(intersectionSelected);
+            setComplete(true);
+            System.out.println("Removed token from " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
+            victimPlayer.getTokens().remove(getFinalIntersection().getToken());
+            getPlayer().removeToken(getFinalIntersection());
+            getGame().notifyActionUpdate();
         } else {
             getPlayer().setTurn(true);
         }
+    }
+
+    @Override
+    public void undo() {
+        setComplete(false);
+        victimPlayer.addToken(getFinalIntersection());
+        getGame().notifyActionUpdate();
+        getPlayer().setTurn(true);
     }
 
     @Override

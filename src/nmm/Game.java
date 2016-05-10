@@ -29,6 +29,7 @@ public class Game {
             player2 = new Human(false, true);
             event.updateUI();
             actions.add(actionFactory.getAction(null, player1, player2, this));
+            //event.updateStatus(getCurrentAction());
             actions.get(actions.size() - 1).start(board);
         }
     }
@@ -45,7 +46,17 @@ public class Game {
         else if (getCurrentAction().isComplete())
         {
             actions.add(actionFactory.getAction(getCurrentAction(), player1, player2, this));
+            //event.updateStatus(getCurrentAction());
             getCurrentAction().start(board);
+        }
+    }
+
+    public void undoAction() {
+        if (actions.size() > 1) {
+            //remove the action currently in progress
+            actions.remove(getCurrentAction());
+            //undo the last action complete
+            getCurrentAction().undo();
         }
     }
 

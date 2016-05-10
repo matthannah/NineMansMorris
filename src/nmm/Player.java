@@ -67,7 +67,27 @@ public abstract class Player {
         placedCount++;
     }
 
+    public void decrementPlacedCount() {
+        placedCount--;
+    }
+
     public int getPlacedCount() {
         return placedCount;
+    }
+
+    public Boolean allInMill() {
+        Boolean allInMill = true;
+        for (Token token : tokens) {
+            if (!token.isInMill()) {
+                allInMill = false;
+            }
+        }
+        return allInMill;
+    }
+
+    public void addToken(Intersection intersection) {
+        Token token = new Token(intersection, isPlayer1());
+        tokens.add(token);
+        intersection.setToken(token);
     }
 }

@@ -30,6 +30,8 @@ public abstract class Action{
 
     public abstract void runAIAction();
 
+    public abstract void undo();
+
     public Player getPlayer() {
         return player;
     }

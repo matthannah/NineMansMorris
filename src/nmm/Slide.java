@@ -1,7 +1,6 @@
 package nmm;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
 
 /**
@@ -72,6 +71,15 @@ public class Slide extends Action {
                 getPlayer().setTurn(true);
             }
         }
+    }
+
+    @Override
+    public void undo() {
+        setComplete(false);
+        getPlayer().removeToken(getFinalIntersection());
+        getPlayer().addToken(startIntersection);
+        getGame().notifyActionUpdate();
+        getPlayer().setTurn(true);
     }
 
     @Override

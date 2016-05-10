@@ -29,6 +29,18 @@ public class Place extends Action {
     }
 
     @Override
+    public void undo() {
+        setComplete(false);
+        getPlayer().removeToken(getFinalIntersection());
+        getPlayer().decrementPlacedCount();
+        if(getPlayer().tokensPlaced()) {
+            getPlayer().setTokensPlaced(false);
+        }
+        getGame().notifyActionUpdate();
+        getPlayer().setTurn(true);
+    }
+
+    @Override
     public void runAIAction() {
 
     }
