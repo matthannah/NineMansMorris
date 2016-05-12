@@ -76,8 +76,9 @@ public class Slide extends Action {
     @Override
     public void undo() {
         setComplete(false);
-        getPlayer().removeToken(getFinalIntersection());
         getPlayer().addToken(startIntersection);
+        getPlayer().getTokens().remove(getFinalIntersection().getToken());
+        getPlayer().removeToken(getFinalIntersection());
         getGame().notifyActionUpdate();
         getPlayer().setTurn(true);
     }
@@ -85,5 +86,9 @@ public class Slide extends Action {
     @Override
     public void runAIAction() {
 
+    }
+
+    public Intersection getStartIntersection() {
+        return startIntersection;
     }
 }

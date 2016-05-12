@@ -9,6 +9,7 @@ import java.util.List;
 public class Remove extends Action {
 
     private Player victimPlayer;
+    private int removedMillCount;
 
     public Remove(Player player, Player victimPlayer, Game game) {
         super(player, game);
@@ -25,13 +26,15 @@ public class Remove extends Action {
             setFinalIntersection(intersectionSelected);
             setComplete(true);
             System.out.println("Removed token from " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
+            removedMillCount = getFinalIntersection().getToken().getMillCount();
             victimPlayer.getTokens().remove(getFinalIntersection().getToken());
             getPlayer().removeToken(getFinalIntersection());
             getGame().notifyActionUpdate();
-        } else if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() != getPlayer().isPlayer1() && getPlayer().allInMill()) {
+        } else if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() != getPlayer().isPlayer1() && victimPlayer.allInMill()) {
             setFinalIntersection(intersectionSelected);
             setComplete(true);
             System.out.println("Removed token from " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
+            removedMillCount = getFinalIntersection().getToken().getMillCount();
             victimPlayer.getTokens().remove(getFinalIntersection().getToken());
             getPlayer().removeToken(getFinalIntersection());
             getGame().notifyActionUpdate();
@@ -44,6 +47,7 @@ public class Remove extends Action {
     public void undo() {
         setComplete(false);
         victimPlayer.addToken(getFinalIntersection());
+        getFinalIntersection().getToken().setMillCount(removedMillCount);
         getGame().notifyActionUpdate();
         getPlayer().setTurn(true);
     }

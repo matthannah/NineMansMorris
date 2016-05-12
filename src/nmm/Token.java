@@ -5,10 +5,10 @@ package nmm;
  */
 
 public class Token {
-    Intersection intersection;
-    Boolean player1;
-    Boolean selected;
-    int millCount;
+    private Intersection intersection;
+    private Boolean player1;
+    private Boolean selected;
+    private int millCount;
 
     public Token(Intersection intersection, Boolean player1) {
         millCount = 0;
@@ -50,5 +50,13 @@ public class Token {
 
     public Boolean isInMill() {
         return millCount > 0;
+    }
+
+    public int getMillCount() {
+        return millCount;
+    }
+
+    public void setMillCount(int millCount) {
+        this.millCount = millCount;
     }
 }

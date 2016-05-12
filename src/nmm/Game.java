@@ -27,7 +27,7 @@ public class Game {
         } else {
             player1 = new Human(true, true);
             player2 = new Human(false, true);
-            event.updateUI();
+            event.updateUI(null);
             actions.add(actionFactory.getAction(null, player1, player2, this));
             event.updateActionLabel(getCurrentAction());
             actions.get(actions.size() - 1).start(board);
@@ -35,7 +35,7 @@ public class Game {
     }
 
     public void notifyActionUpdate() {
-        event.updateUI();
+        event.updateUI(getCurrentAction());
 
         if (player1.getTokenCount() < 3 && player1.tokensPlaced()) {
             event.gameComplete("Player 2 wins");
