@@ -29,7 +29,7 @@ public class Game {
             player2 = new Human(false, true);
             event.updateUI();
             actions.add(actionFactory.getAction(null, player1, player2, this));
-            //event.updateStatus(getCurrentAction());
+            event.updateActionLabel(getCurrentAction());
             actions.get(actions.size() - 1).start(board);
         }
     }
@@ -46,7 +46,7 @@ public class Game {
         else if (getCurrentAction().isComplete())
         {
             actions.add(actionFactory.getAction(getCurrentAction(), player1, player2, this));
-            //event.updateStatus(getCurrentAction());
+            event.updateActionLabel(getCurrentAction());
             getCurrentAction().start(board);
         }
     }

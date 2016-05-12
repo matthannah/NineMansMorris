@@ -23,8 +23,10 @@ public class Event extends JFrame implements MouseListener {
     private JPanel controlPanel;
     private JPanel gamePanel;
     private JPanel statusPanel;
-    private JLabel statusTitleLabel;
-    private JTextArea statusTextArea;
+    private JPanel gameControlPanel;
+    private JLabel historyTitleLabel;
+    private JLabel actionLabel;
+    private JTextArea historyTextArea;
     private JPanel boardPanel;
     private JButton newGameButton;
     private JCheckBox computerCheckBox;
@@ -37,7 +39,8 @@ public class Event extends JFrame implements MouseListener {
     private static final int TOKEN_DIAMETER = TOKEN_RADIUS * 2;
 
     private Boolean gameOver = true;
-    private String status;
+    private String history;
+    private String action;
 
     //Intersection locations
     Point a1;
@@ -87,8 +90,10 @@ public class Event extends JFrame implements MouseListener {
         //Game panel
         gamePanel = new JPanel(new BorderLayout());
         statusPanel = new JPanel(new FlowLayout());
-        statusTitleLabel = new JLabel("GAME STATUS");
-        statusTextArea = new JTextArea();
+        gameControlPanel = new JPanel(new GridLayout());
+        historyTitleLabel = new JLabel("GAME STATUS");
+        historyTextArea = new JTextArea();
+        actionLabel = new JLabel("PLAYER TURN: ");
         undoMoveButton = new JButton("Undo Move");
         undoMoveButton.addActionListener(new ActionListener() {
             @Override
@@ -179,12 +184,14 @@ public class Event extends JFrame implements MouseListener {
         add(gamePanel, BorderLayout.CENTER);
         statusPanel.setPreferredSize(new Dimension(250, 500));
         statusPanel.setBorder(new LineBorder(Color.BLACK, 5, true));
-        statusPanel.add(statusTitleLabel, BorderLayout.PAGE_START);
-        statusPanel.add(statusTextArea, BorderLayout.PAGE_START);
-        //statusTextArea.setPreferredSize(new Dimension(statusPanel.getWidth() - 10, statusPanel.getHeight() - statusTitleLabel.getHeight() - 10));
+        statusPanel.add(historyTitleLabel, BorderLayout.PAGE_START);
+        statusPanel.add(historyTextArea, BorderLayout.PAGE_START);
+        historyTextArea.setPreferredSize(new Dimension(statusPanel.getWidth() - 10, statusPanel.getHeight() - historyTitleLabel.getHeight() - 10));
         gamePanel.add(statusPanel, BorderLayout.LINE_END);
-        gamePanel.add(undoMoveButton, BorderLayout.PAGE_START);
-        gamePanel.add(boardPanel, BorderLayout.CENTER);
+        gamePanel.add(actionLabel, BorderLayout.PAGE_START);
+        gamePanel.add(gameControlPanel, BorderLayout.PAGE_START);
+        gameControlPanel.add(undoMoveButton);
+        gameControlPanel.add(boardPanel);
 
         //Window
         setSize(900, 700);
@@ -226,7 +233,7 @@ public class Event extends JFrame implements MouseListener {
     }
 
     public void newGame(Game game) {
-        status = "";
+        history = "";
         gameOver = false;
         this.game = game;
     }
@@ -392,7 +399,7 @@ public class Event extends JFrame implements MouseListener {
     }
 
     public void gameComplete(String message) {
-        statusTextArea.setText(message);
+        actionLabel.setText(message);
         gameOver = true;
     }
 
@@ -400,30 +407,30 @@ public class Event extends JFrame implements MouseListener {
         repaint();
     }
 
-    public void updateStatus(Action action) {
+    public void updateActionLabel(Action action) {
         Player player = action.getPlayer();
         if (player.isPlayer1()) {
             if (action instanceof Place) {
-                status = status + "\n" + "Player 1 make a Place move";
+                history = history + "\n" + "Player 1 make a Place move";
             } else if (action instanceof Slide) {
-                status = status + "\n" + "Player 1 make a Slide move";
+                history = history + "\n" + "Player 1 make a Slide move";
             } else if (action instanceof Hop) {
-                status = status + "\n" + "Player 1 make a Hop move";
+                history = history + "\n" + "Player 1 make a Hop move";
             } else if (action instanceof Remove) {
-                status = status + "\n" + "Player 1 make a Remove move";
+                history = history + "\n" + "Player 1 make a Remove move";
             }
         } else {
             if (action instanceof Place) {
-                status = status + "\n" + "Player 2 make a Place move";
+                history = history + "\n" + "Player 2 make a Place move";
             } else if (action instanceof Slide) {
-                status = status + "\n" + "Player 2 make a Slide move";
+                history = history + "\n" + "Player 2 make a Slide move";
             } else if (action instanceof Hop) {
-                status = status + "\n" + "Player 2 make a Hop move";
+                history = history + "\n" + "Player 2 make a Hop move";
             } else if (action instanceof Remove) {
-                status = status + "\n" + "Player 2 make a Remove move";
+                history = history + "\n" + "Player 2 make a Remove move";
             }
         }
-        statusTextArea.setText(status);
+        historyTextArea.setText(history);
     }
 
     @Override
