@@ -5,10 +5,6 @@ package nmm;
  */
 public class AI extends Player {
 
-    public AI(Boolean player1, Boolean human) {
-        super(player1, human);
-    }
-
     @Override
     public void placeToken(Intersection intersection) {
 

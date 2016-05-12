@@ -11,16 +11,10 @@ public abstract class Player {
     private List<Token> tokens = new ArrayList<>();
     private int placedCount;
     private Boolean tokensPlaced;
-    private Boolean turn;
-    private Boolean player1;
-    private Boolean human;
 
-    public Player(Boolean player1, Boolean human) {
+    public Player() {
         placedCount = 0;
-        this.human = human;
-        this.player1 = player1;
         tokensPlaced = false;
-        turn = false;
     }
 
     public abstract void placeToken(Intersection intersection);
@@ -43,24 +37,8 @@ public abstract class Player {
         return tokens.size();
     }
 
-    public void setTurn(Boolean turn) {
-        this.turn = turn;
-    }
-
-    public Boolean isTurn() {
-        return turn;
-    }
-
     public void setTokensPlaced(Boolean tokensPlaced) {
         this.tokensPlaced = tokensPlaced;
-    }
-
-    public Boolean isPlayer1() {
-        return player1;
-    }
-
-    public Boolean isHuman() {
-        return human;
     }
 
     public void incrementPlacedCount() {
@@ -86,7 +64,7 @@ public abstract class Player {
     }
 
     public void addToken(Intersection intersection) {
-        Token token = new Token(intersection, isPlayer1());
+        Token token = new Token(intersection);
         tokens.add(token);
         intersection.setToken(token);
     }

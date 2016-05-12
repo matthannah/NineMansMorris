@@ -17,13 +17,7 @@ public class Slide extends Action {
     }
 
     @Override
-    public void start(Board board) {
-        getPlayer().setTurn(true);
-    }
-
-    @Override
     public void updateAction(Point p) {
-        getPlayer().setTurn(false);
 
         Intersection intersectionSelected = getGame().getBoard().getIntersection(p);
         if (tokenSelected) {
@@ -58,17 +52,13 @@ public class Slide extends Action {
                 startIntersection = null;
                 tokenSelected = false;
                 getGame().notifyActionUpdate();
-                getPlayer().setTurn(true);
             }
         } else {
-            if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() == getPlayer().isPlayer1()) {
+            if (!intersectionSelected.isEmpty() && getPlayer().getTokens().contains(intersectionSelected.getToken())) {
                 startIntersection = intersectionSelected;
                 tokenSelected = true;
                 startIntersection.getToken().setSelected(true);
                 getGame().notifyActionUpdate();
-                getPlayer().setTurn(true);
-            } else {
-                getPlayer().setTurn(true);
             }
         }
     }
@@ -80,7 +70,6 @@ public class Slide extends Action {
         getPlayer().getTokens().remove(getFinalIntersection().getToken());
         getPlayer().removeToken(getFinalIntersection());
         getGame().notifyActionUpdate();
-        getPlayer().setTurn(true);
     }
 
     @Override
@@ -90,5 +79,10 @@ public class Slide extends Action {
 
     public Intersection getStartIntersection() {
         return startIntersection;
+    }
+
+    @Override
+    public String toString() {
+        return "SLIDE";
     }
 }

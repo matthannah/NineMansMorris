@@ -18,11 +18,9 @@ public class Remove extends Action {
 
     @Override
     public void updateAction(Point p) {
-        getPlayer().setTurn(false);
-
         Intersection intersectionSelected = getGame().getBoard().getIntersection(p);
 
-        if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() != getPlayer().isPlayer1() && !intersectionSelected.getToken().isInMill()) {
+        if (!intersectionSelected.isEmpty() && victimPlayer.getTokens().contains(intersectionSelected.getToken()) && !intersectionSelected.getToken().isInMill()) {
             setFinalIntersection(intersectionSelected);
             setComplete(true);
             System.out.println("Removed token from " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
@@ -30,7 +28,7 @@ public class Remove extends Action {
             victimPlayer.getTokens().remove(getFinalIntersection().getToken());
             getPlayer().removeToken(getFinalIntersection());
             getGame().notifyActionUpdate();
-        } else if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() != getPlayer().isPlayer1() && victimPlayer.allInMill()) {
+        } else if (!intersectionSelected.isEmpty() && victimPlayer.getTokens().contains(intersectionSelected.getToken()) && victimPlayer.allInMill()) {
             setFinalIntersection(intersectionSelected);
             setComplete(true);
             System.out.println("Removed token from " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
@@ -38,8 +36,6 @@ public class Remove extends Action {
             victimPlayer.getTokens().remove(getFinalIntersection().getToken());
             getPlayer().removeToken(getFinalIntersection());
             getGame().notifyActionUpdate();
-        } else {
-            getPlayer().setTurn(true);
         }
     }
 
@@ -49,11 +45,15 @@ public class Remove extends Action {
         victimPlayer.addToken(getFinalIntersection());
         getFinalIntersection().getToken().setMillCount(removedMillCount);
         getGame().notifyActionUpdate();
-        getPlayer().setTurn(true);
     }
 
     @Override
     public void runAIAction() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "REMOVE";
     }
 }

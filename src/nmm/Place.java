@@ -13,18 +13,13 @@ public class Place extends Action {
 
     @Override
     public void updateAction(Point p) {
-        getPlayer().setTurn(false);
-
         Intersection intersectionSelected = getGame().getBoard().getIntersection(p);
-
         if (intersectionSelected.isEmpty()) {
             setFinalIntersection(intersectionSelected);
             setComplete(true);
             System.out.println("Placed token at " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
             getPlayer().placeToken(getFinalIntersection());
             getGame().notifyActionUpdate();
-        } else {
-            getPlayer().setTurn(true);
         }
     }
 
@@ -37,11 +32,15 @@ public class Place extends Action {
             getPlayer().setTokensPlaced(false);
         }
         getGame().notifyActionUpdate();
-        getPlayer().setTurn(true);
     }
 
     @Override
     public void runAIAction() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "PLACE";
     }
 }

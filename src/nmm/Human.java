@@ -5,13 +5,9 @@ package nmm;
  */
 public class Human extends Player {
 
-    public Human(Boolean player1, Boolean human) {
-        super(player1, human);
-    }
-
     @Override
     public void placeToken(Intersection intersection) {
-        Token placedToken = new Token(intersection, isPlayer1());
+        Token placedToken = new Token(intersection);
         placedToken.setIntersection(intersection);
         getTokens().add(placedToken);
         incrementPlacedCount();
@@ -28,7 +24,7 @@ public class Human extends Player {
 
     @Override
     public void removeToken(Intersection intersection) {
-        intersection.getToken().removeToken(intersection);
+        intersection.setToken(null);
     }
 
     @Override

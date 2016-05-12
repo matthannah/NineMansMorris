@@ -17,8 +17,6 @@ public class Hop extends Action {
 
     @Override
     public void updateAction(Point p) {
-        getPlayer().setTurn(false);
-
         Intersection intersectionSelected = getGame().getBoard().getIntersection(p);
         if (tokenSelected) {
             if (intersectionSelected.isEmpty()) {
@@ -33,17 +31,13 @@ public class Hop extends Action {
                 startIntersection = null;
                 tokenSelected = false;
                 getGame().notifyActionUpdate();
-                getPlayer().setTurn(true);
             }
         } else {
-            if (!intersectionSelected.isEmpty() && intersectionSelected.getToken().isPlayer1() == getPlayer().isPlayer1()) {
+            if (!intersectionSelected.isEmpty() && getPlayer().getTokens().contains(intersectionSelected.getToken())) {
                 startIntersection = intersectionSelected;
                 tokenSelected = true;
                 startIntersection.getToken().setSelected(true);
                 getGame().notifyActionUpdate();
-                getPlayer().setTurn(true);
-            } else {
-                getPlayer().setTurn(true);
             }
         }
     }
@@ -55,7 +49,6 @@ public class Hop extends Action {
         getPlayer().getTokens().remove(getFinalIntersection().getToken());
         getPlayer().removeToken(getFinalIntersection());
         getGame().notifyActionUpdate();
-        getPlayer().setTurn(true);
     }
 
     @Override
@@ -65,5 +58,10 @@ public class Hop extends Action {
 
     public Intersection getStartIntersection() {
         return startIntersection;
+    }
+
+    @Override
+    public String toString() {
+        return "HOP";
     }
 }

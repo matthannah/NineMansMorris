@@ -141,7 +141,7 @@ public class Event extends JFrame implements MouseListener {
                             if (intersections.get(intersectionID).getToken().isSelected()) {
                                 g2.setColor(Color.YELLOW);
                                 g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
-                            } else if (intersections.get(intersectionID).getToken().isPlayer1()) {
+                            } else if (intersections.get(intersectionID).getToken().toString().equals("RED")) {
                                 g2.setColor(Color.RED);
                                 g2.fillOval((int) getPoint(intersections.get(intersectionID).getPoint()).getX() - TOKEN_RADIUS, (int) getPoint(intersections.get(intersectionID).getPoint()).getY() - TOKEN_RADIUS, TOKEN_DIAMETER, TOKEN_DIAMETER);
                             } else {
@@ -430,38 +430,20 @@ public class Event extends JFrame implements MouseListener {
         if (action != null){
             Player player = action.getPlayer();
             if (action.isComplete()) {
-                if (player.isPlayer1()) {
-                    if (action instanceof Place) {
-                        history = history + "\n -------------------------------------------\n" + " PLAYER 1\n  -placed token at: ("
-                                + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
-                    } else if (action instanceof Slide) {
-                        history = history + "\n -------------------------------------------\n" + " PLAYER 1\n  -slid token from: ("
-                                + ((Slide) action).getStartIntersection().getPoint().getX() + ", " + ((Slide) action).getStartIntersection().getPoint().getY() + ")\n"
-                                + "                           to: (" + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
-                    } else if (action instanceof Hop) {
-                        history = history + "\n -------------------------------------------\n" + " PLAYER 1\n  -hopped token from: ("
-                                + ((Hop) action).getStartIntersection().getPoint().getX() + ", " + ((Hop) action).getStartIntersection().getPoint().getY() + ")\n"
-                                + "                                  to: (" + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
-                    } else if (action instanceof Remove) {
-                        history = history + "\n -------------------------------------------\n" + " PLAYER 1\n  -removed token from: ("
-                                + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
-                    }
-                } else {
-                    if (action instanceof Place) {
-                        history = history + "\n -------------------------------------------\n" + " PLAYER 2\n  -placed token at: ("
-                                + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
-                    } else if (action instanceof Slide) {
-                        history = history + "\n -------------------------------------------\n" + " PLAYER 2\n  -slid token from: ("
-                                + ((Slide) action).getStartIntersection().getPoint().getX() + ", " + ((Slide) action).getStartIntersection().getPoint().getY() + ")\n"
-                                + "                           to: (" + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
-                    } else if (action instanceof Hop) {
-                        history = history + "\n -------------------------------------------\n" + " PLAYER 2\n  -hopped token from: ("
-                                + ((Hop) action).getStartIntersection().getPoint().getX() + ", " + ((Hop) action).getStartIntersection().getPoint().getY() + ")\n"
-                                + "                                  to: (" + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
-                    } else if (action instanceof Remove) {
-                        history = history + "\n -------------------------------------------\n" + " PLAYER 2\n  -removed token from: ("
-                                + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
-                    }
+                if (action instanceof Place) {
+                    history = history + "\n -------------------------------------------\n" + player.toString() + "\n  -placed token at: ("
+                            + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
+                } else if (action instanceof Slide) {
+                    history = history + "\n -------------------------------------------\n" + player.toString() + "\n  -slid token from: ("
+                            + ((Slide) action).getStartIntersection().getPoint().getX() + ", " + ((Slide) action).getStartIntersection().getPoint().getY() + ")\n"
+                            + "                           to: (" + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
+                } else if (action instanceof Hop) {
+                    history = history + "\n -------------------------------------------\n" + player.toString() + "n  -hopped token from: ("
+                            + ((Hop) action).getStartIntersection().getPoint().getX() + ", " + ((Hop) action).getStartIntersection().getPoint().getY() + ")\n"
+                            + "                                  to: (" + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
+                } else if (action instanceof Remove) {
+                    history = history + "\n -------------------------------------------\n" + player.toString() + "\n  -removed token from: ("
+                            + action.getFinalIntersection().getPoint().getX() + ", " + action.getFinalIntersection().getPoint().getY() + ")";
                 }
             }
         } else {
@@ -472,28 +454,7 @@ public class Event extends JFrame implements MouseListener {
     }
 
     public void updateActionLabel(Action action) {
-        Player player = action.getPlayer();
-        if (player.isPlayer1()) {
-            if (action instanceof Place) {
-                actionLabel.setText("PLAYER 1: place a token");
-            } else if (action instanceof Slide) {
-                actionLabel.setText("PLAYER 1: slide a token");
-            } else if (action instanceof Hop) {
-                actionLabel.setText("PLAYER 1: hop a token");
-            } else if (action instanceof Remove) {
-                actionLabel.setText("PLAYER 1: remove a token");
-            }
-        } else {
-            if (action instanceof Place) {
-                actionLabel.setText("PLAYER 2: place a token");
-            } else if (action instanceof Slide) {
-                actionLabel.setText("PLAYER 2: slide a token");
-            } else if (action instanceof Hop) {
-                actionLabel.setText("PLAYER 2: hop a token");
-            } else if (action instanceof Remove) {
-                actionLabel.setText("PLAYER 2: remove a token");
-            }
-        }
+        actionLabel.setText(action.getPlayer().toString() + " " + action.toString().toLowerCase() + " a token");
     }
 
     @Override
@@ -507,7 +468,7 @@ public class Event extends JFrame implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (game != null) {
-            if (game.getCurrentAction().getPlayer().isTurn()) {
+            if (game.getCurrentAction().getPlayer() instanceof Human) {
                 Point intersectionClicked;
 
                 //find which circle was selected if any

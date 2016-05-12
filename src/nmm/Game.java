@@ -25,12 +25,21 @@ public class Game {
         if (computer) {
             System.out.println("Feature not implemented: Computer AI");
         } else {
-            player1 = new Human(true, true);
-            player2 = new Human(false, true);
+            player1 = new Human(){
+                @Override
+                public String toString() {
+                    return "PLAYER1";
+                }
+            };
+            player2 = new Human() {
+                @Override
+                public String toString() {
+                    return "PLAYER2";
+                }
+            };
             event.updateUI(null);
             actions.add(actionFactory.getAction(null, player1, player2, this));
             event.updateActionLabel(getCurrentAction());
-            actions.get(actions.size() - 1).start(board);
         }
     }
 
@@ -47,7 +56,6 @@ public class Game {
         {
             actions.add(actionFactory.getAction(getCurrentAction(), player1, player2, this));
             event.updateActionLabel(getCurrentAction());
-            getCurrentAction().start(board);
         }
     }
 

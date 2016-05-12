@@ -24,7 +24,7 @@ public class ActionFactory {
             //determine action
             if (game.getBoard().isMillEvent(lastAction)) {
                 System.out.println("Creating remove action...");
-                if (lastAction.getPlayer().isPlayer1()) {
+                if (lastAction.getPlayer().toString().equals("PLAYER1")) {
                     action = new Remove(player1, player2, game);
                 } else {
                     action = new Remove(player2, player1, game);

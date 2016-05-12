@@ -347,10 +347,8 @@ public class Board {
         Boolean millEvent = false;
 
         for (Intersection intersection : intersectionsRow) {
-            if (intersection.getToken() != null) {
-                if (intersection.getToken().isPlayer1() == lastAction.getPlayer().isPlayer1()) {
-                    i++;
-                }
+            if (intersection.getToken() != null && lastAction.getPlayer().getTokens().contains(lastAction.getFinalIntersection().getToken())) {
+                i++;
             }
         }
         if (i > 2) {
@@ -361,10 +359,8 @@ public class Board {
         }
 
         for (Intersection intersection : intersectionsCol) {
-            if (intersection.getToken() != null) {
-                if (intersection.getToken().isPlayer1() == lastAction.getPlayer().isPlayer1()) {
-                    j++;
-                }
+            if (intersection.getToken() != null && lastAction.getPlayer().getTokens().contains(lastAction.getFinalIntersection().getToken())) {
+                j++;
             }
         }
         if (j > 2) {

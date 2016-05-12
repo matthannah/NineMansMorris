@@ -18,13 +18,8 @@ public abstract class Action{
         complete = false;
     }
 
-    public void start(Board board) {
-        if (getPlayer().isHuman()) {
-            getPlayer().setTurn(true);
-        } else {
-            runAIAction();
-        }
-    }
+    @Override
+    public abstract String toString();
 
     public abstract void updateAction(Point p);
 
