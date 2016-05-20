@@ -39,6 +39,8 @@ public class Remove extends Action {
             victimPlayer.getTokens().remove(finalIntersection.getToken());
             player.removeToken(finalIntersection);
             game.notifyActionUpdate();
+        } else {
+            game.notifyInvalidMove();
         }
     }
 

@@ -52,7 +52,7 @@ public class Game {
 
     /**
      * notifies the event object that an action has been updated. checks if
-     * the win state has been achieved, and whether or not the current action has been
+     * the win states has been achieved, and whether or not the current action has been
      * completed; will get a new action if so
      */
     public void notifyActionUpdate() {
@@ -67,7 +67,15 @@ public class Game {
         else if (getCurrentAction().isComplete())
         {
             actions.add(actionFactory.getAction(getCurrentAction(), player1, player2, this));
-            event.updateActionLabel(getCurrentAction());
+            if (getCurrentAction() == null) { //there was no more valid moves
+                if (actions.get(actions.size()-2).getPlayer() == player1) {
+                    event.gameComplete("----Player 1 wins----");
+                } else {
+                    event.gameComplete("----Player 2 wins----");
+                }
+            } else {
+                event.updateActionLabel(getCurrentAction());
+            }
         }
     }
 
@@ -84,6 +92,14 @@ public class Game {
             //update event label
             event.updateActionLabel(getCurrentAction());
         }
+    }
+
+    /**
+     * tell the event object to notify the player that an invalid move
+     * was attempted
+     */
+    public void notifyInvalidMove() {
+        event.invalidMove(getCurrentAction().toString());
     }
 
     /**

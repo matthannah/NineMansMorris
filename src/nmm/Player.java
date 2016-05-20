@@ -115,12 +115,30 @@ public abstract class Player {
     public void addToken(Intersection intersection) {
         Token token;
         if (this.toString().equals("PLAYER1")) {
-            token = new Token("RED");
+            token = new Token("RED", intersection);
         } else {
-            token = new Token("BLUE");
+            token = new Token("BLUE", intersection);
         }
         tokens.add(token);
         intersection.setToken(token);
+    }
+
+    /**
+     * Will check if the player has any valid moves left when
+     * a slide action is in progress
+     *
+     * @return validMoves   whether or not the player has valid moves left
+     */
+    public Boolean hasValidMoves() {
+        Boolean validMoves = false;
+        for (Token token : tokens) {
+            for (Intersection intersection : token.getIntersection().getAdjacentIntersections()) {
+                if (intersection.getToken() == null) {
+                    validMoves = true;
+                }
+            }
+        }
+        return validMoves;
     }
 
     public abstract String toString();

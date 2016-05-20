@@ -25,9 +25,9 @@ public class Human extends Player {
         Token placedToken;
         //check whether you're player1 or player2 and create a token accordingly
         if (this.toString().equals("PLAYER1")) {
-            placedToken = new Token("RED");
+            placedToken = new Token("RED", intersection);
         } else {
-            placedToken = new Token("BLUE");
+            placedToken = new Token("BLUE", intersection);
         }
         //place the token on the intersection
         intersection.setToken(placedToken);
@@ -44,6 +44,8 @@ public class Human extends Player {
      */
     @Override
     public void removeToken(Intersection intersection) {
+        //remove the tokens reference to the intersection
+        intersection.getToken().setIntersection(null);
         //remove the reference to the token
         intersection.setToken(null);
     }
@@ -57,6 +59,8 @@ public class Human extends Player {
         finalIntersection.setToken(startIntersection.getToken());
         //remove the reference to the token from the startIntersection
         startIntersection.setToken(null);
+        //update the tokens intersection
+        finalIntersection.getToken().setIntersection(finalIntersection);
     }
 
     @Override

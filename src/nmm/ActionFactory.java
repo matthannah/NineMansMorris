@@ -50,8 +50,13 @@ public class ActionFactory {
                 action = new Place(player, game);
             } else {
                 if (player.getTokenCount() > 3) {
-                    System.out.println("Creating slide action...");
-                    action = new Slide(player, game);
+                    //check whether there is any valid slide moves left
+                    if (player.hasValidMoves()) {
+                        System.out.println("Creating slide action...");
+                        action = new Slide(player, game);
+                    } else { //game over
+                        action = null;
+                    }
                 } else {
                     System.out.println("Creating hop action...");
                     action = new Hop(player, game);

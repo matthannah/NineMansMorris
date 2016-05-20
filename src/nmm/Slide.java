@@ -61,6 +61,7 @@ public class Slide extends Action {
                 startIntersection.getToken().setSelected(false);
                 startIntersection = null;
                 game.notifyActionUpdate();
+                game.notifyInvalidMove();
             }
         } else { //start intersection has not been selected yet
             //intersection is empty and the token selected belongs to the player making the move
@@ -68,6 +69,8 @@ public class Slide extends Action {
                 startIntersection = intersectionSelected;
                 startIntersection.getToken().setSelected(true);
                 game.notifyActionUpdate();
+            } else {
+                game.notifyInvalidMove();
             }
         }
     }

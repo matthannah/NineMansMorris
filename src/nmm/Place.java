@@ -33,6 +33,8 @@ public class Place extends Action {
             complete = true;
             player.placeToken(finalIntersection);
             game.notifyActionUpdate();
+        } else {
+            game.notifyInvalidMove();
         }
     }
 

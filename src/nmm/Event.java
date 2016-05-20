@@ -520,6 +520,16 @@ public class Event extends JFrame implements MouseListener {
         actionLabel.setText((action.getPlayer().toString() + ": " + action.toString().toLowerCase() + " a token").toUpperCase());
     }
 
+    /**
+     * notifies the user that a move they attempted to make
+     * was invalid
+     *
+     * @param action    the action that was invalid
+     */
+    public void invalidMove(String action) {
+        JOptionPane.showMessageDialog(null, "Invalid " + action + " Action");
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
     }
