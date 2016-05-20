@@ -22,8 +22,4 @@ public class Menu {
         event.newGame(game);
         game.start(event.isComputer(), 0);
     }
-
-    public Event getEvent() {
-        return event;
-    }
 }

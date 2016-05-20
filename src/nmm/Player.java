@@ -8,22 +8,24 @@ import java.util.List;
  */
 public abstract class Player {
 
-    private List<Token> tokens = new ArrayList<>();
-    private int placedCount;
-    private Boolean tokensPlaced;
+    protected List<Token> tokens = new ArrayList<>();
+    protected int placedCount;
+    protected Boolean tokensPlaced;
+    protected String name;
 
-    public Player() {
+    public Player(String name) {
         placedCount = 0;
         tokensPlaced = false;
+        this.name = name;
     }
 
     public abstract void placeToken(Intersection intersection);
 
-    public abstract void slideToken(Intersection startIntersection, Intersection finalIntersection);
-
     public abstract void removeToken(Intersection intersection);
 
-    public abstract void hopToken(Intersection startIntersection, Intersection finalIntersection);
+    public abstract void moveToken(Intersection startIntersection, Intersection finalIntersection);
+
+    public abstract String toString();
 
     public Boolean tokensPlaced() {
         return tokensPlaced;
@@ -41,16 +43,8 @@ public abstract class Player {
         this.tokensPlaced = tokensPlaced;
     }
 
-    public void incrementPlacedCount() {
-        placedCount++;
-    }
-
     public void decrementPlacedCount() {
         placedCount--;
-    }
-
-    public int getPlacedCount() {
-        return placedCount;
     }
 
     public Boolean allInMill() {
@@ -64,7 +58,12 @@ public abstract class Player {
     }
 
     public void addToken(Intersection intersection) {
-        Token token = new Token(intersection);
+        Token token;
+        if (this.toString().equals("PLAYER1")) {
+            token = new Token("RED");
+        } else {
+            token = new Token("BLUE");
+        }
         tokens.add(token);
         intersection.setToken(token);
     }

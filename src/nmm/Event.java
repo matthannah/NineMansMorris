@@ -1,7 +1,6 @@
 package nmm;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,17 +21,8 @@ public class Event extends JFrame implements MouseListener {
     Game game;
     Menu menu;
 
-    //UI
-    private JPanel controlPanel;
-    private JPanel gamePanel;
-    private JPanel movePanel;
-    private JPanel historyPanel;
-    private JPanel newGamePanel;
-    private JLabel historyTitleLabel;
     private JLabel actionLabel;
     private JTextArea historyTextArea;
-    private JScrollPane scroll;
-    private JPanel boardPanel;
     private JButton newGameButton;
     private JCheckBox computerCheckBox;
     protected JButton undoMoveButton;
@@ -77,9 +67,9 @@ public class Event extends JFrame implements MouseListener {
         this.menu = menu;
 
         //add panels to the frame
-        gamePanel = new JPanel(new BorderLayout());
+        JPanel gamePanel = new JPanel(new BorderLayout());
         add(gamePanel, BorderLayout.PAGE_START);
-        boardPanel = new JPanel() {
+        JPanel boardPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -157,31 +147,31 @@ public class Event extends JFrame implements MouseListener {
         boardPanel.addMouseListener(this);
         boardPanel.setBorder(new LineBorder(Color.BLACK, 5));
         add(boardPanel, BorderLayout.CENTER);
-        historyPanel = new JPanel(new BorderLayout());
+        JPanel historyPanel = new JPanel(new BorderLayout());
         historyPanel.setPreferredSize(new Dimension(210, 0));
         add(historyPanel, BorderLayout.LINE_END);
 
         //game panel
-        controlPanel = new JPanel(new BorderLayout());
+        JPanel controlPanel = new JPanel(new BorderLayout());
         controlPanel.setPreferredSize(new Dimension(0, 60));
         gamePanel.add(controlPanel, BorderLayout.PAGE_START);
-        movePanel = new JPanel(new GridBagLayout());
+        JPanel movePanel = new JPanel(new GridBagLayout());
         movePanel.setPreferredSize(new Dimension(0, 40));
         gamePanel.add(movePanel, BorderLayout.PAGE_END);
 
         //history panel
-        historyTitleLabel = new JLabel("GAME HISTORY");
+        JLabel historyTitleLabel = new JLabel("GAME HISTORY");
         historyTitleLabel.setHorizontalAlignment(CENTER);
         historyPanel.add(historyTitleLabel, BorderLayout.PAGE_START);
         historyTextArea = new JTextArea();
         historyTextArea.setEditable(false);
         historyPanel.setBorder(new LineBorder(Color.BLACK, 5));
-        scroll = new JScrollPane(historyTextArea);
+        JScrollPane scroll = new JScrollPane(historyTextArea);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         historyPanel.add(scroll);
 
         //control panel
-        newGamePanel = new JPanel();
+        JPanel newGamePanel = new JPanel();
         controlPanel.add(newGamePanel, BorderLayout.LINE_START);
 
         //newGame Panel
@@ -200,6 +190,9 @@ public class Event extends JFrame implements MouseListener {
         GridBagConstraints c = new GridBagConstraints();
         actionLabel = new JLabel("START A NEW GAME");
         actionLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        actionLabel.setFont(new Font("SansSerif Bold", Font.BOLD, 20));
+        actionLabel.setBorder(new LineBorder(Color.BLACK, 2));
+        actionLabel.setOpaque(true);
         c.weightx = 1;
         movePanel.add(actionLabel, c);
         undoMoveButton = new JButton("UNDO MOVE");
@@ -214,6 +207,17 @@ public class Event extends JFrame implements MouseListener {
         c.weightx = 0;
         movePanel.add(undoMoveButton, c);
         undoMoveButton.setEnabled(false);
+
+        computerCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (computerCheckBox.isSelected()) {
+                    newGameButton.setEnabled(false);
+                } else {
+                    newGameButton.setEnabled(true);
+                }
+            }
+        });
 
         //Window
         setSize(900, 700);
@@ -454,7 +458,12 @@ public class Event extends JFrame implements MouseListener {
     }
 
     public void updateActionLabel(Action action) {
-        actionLabel.setText(action.getPlayer().toString() + " " + action.toString().toLowerCase() + " a token");
+        if (action.getPlayer().toString().equals("PLAYER1")) {
+            actionLabel.setBackground(new Color(255, 204, 204));
+        } else {
+            actionLabel.setBackground(new Color(204, 204, 255));
+        }
+        actionLabel.setText((action.getPlayer().toString() + ": " + action.toString().toLowerCase() + " a token").toUpperCase());
     }
 
     @Override

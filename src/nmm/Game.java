@@ -25,18 +25,8 @@ public class Game {
         if (computer) {
             System.out.println("Feature not implemented: Computer AI");
         } else {
-            player1 = new Human(){
-                @Override
-                public String toString() {
-                    return "PLAYER1";
-                }
-            };
-            player2 = new Human() {
-                @Override
-                public String toString() {
-                    return "PLAYER2";
-                }
-            };
+            player1 = new Human("PLAYER1");
+            player2 = new Human("PLAYER2");
             event.updateUI(null);
             actions.add(actionFactory.getAction(null, player1, player2, this));
             event.updateActionLabel(getCurrentAction());
@@ -47,10 +37,10 @@ public class Game {
         event.updateUI(getCurrentAction());
 
         if (player1.getTokenCount() < 3 && player1.tokensPlaced()) {
-            event.gameComplete("Player 2 wins");
+            event.gameComplete("----Player 2 wins----");
         }
         else if (player2.getTokenCount() < 3 && player1.tokensPlaced()) {
-            event.gameComplete("Player 1 wins");
+            event.gameComplete("----Player 1 wins----");
         }
         else if (getCurrentAction().isComplete())
         {
@@ -65,6 +55,8 @@ public class Game {
             actions.remove(getCurrentAction());
             //undo the last action complete
             getCurrentAction().undo();
+            //update event label
+            event.updateActionLabel(getCurrentAction());
         }
     }
 

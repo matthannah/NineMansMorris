@@ -5,14 +5,13 @@ package nmm;
  */
 public class AI extends Player {
 
-    @Override
-    public void placeToken(Intersection intersection) {
-
+    public AI(String name) {
+        super(name);
     }
 
     @Override
-    public void slideToken(Intersection startIntersection, Intersection finalIntersection) {
-        
+    public void placeToken(Intersection intersection) {
+
     }
 
     @Override
@@ -21,7 +20,12 @@ public class AI extends Player {
     }
 
     @Override
-    public void hopToken(Intersection startIntersection, Intersection finalIntersection) {
+    public void moveToken(Intersection startIntersection, Intersection finalIntersection) {
 
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

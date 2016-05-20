@@ -13,25 +13,28 @@ public class Place extends Action {
 
     @Override
     public void updateAction(Point p) {
-        Intersection intersectionSelected = getGame().getBoard().getIntersection(p);
+        //get the intersection that the user has clicked
+        Intersection intersectionSelected = game.getBoard().getIntersection(p);
+
+        //if the intersection if empty place the token
         if (intersectionSelected.isEmpty()) {
-            setFinalIntersection(intersectionSelected);
-            setComplete(true);
-            System.out.println("Placed token at " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
-            getPlayer().placeToken(getFinalIntersection());
-            getGame().notifyActionUpdate();
+            finalIntersection = intersectionSelected;
+            complete = true;
+            player.placeToken(finalIntersection);
+            game.notifyActionUpdate();
         }
     }
 
     @Override
     public void undo() {
-        setComplete(false);
-        getPlayer().removeToken(getFinalIntersection());
-        getPlayer().decrementPlacedCount();
-        if(getPlayer().tokensPlaced()) {
-            getPlayer().setTokensPlaced(false);
+        complete = false;
+        player.removeToken(finalIntersection);
+        player.decrementPlacedCount();
+        if(player.tokensPlaced()) {
+            player.setTokensPlaced(false);
         }
-        getGame().notifyActionUpdate();
+        finalIntersection = null;
+        game.notifyActionUpdate();
     }
 
     @Override

@@ -6,8 +6,8 @@ package nmm;
 public class ActionFactory {
 
     public Action getAction(Action lastAction, Player player1, Player player2, Game game) {
-        Player player = null;
-        Action action = null;
+        Player player;
+        Action action;
         
         //first turn
         if (lastAction == null) {
@@ -29,7 +29,6 @@ public class ActionFactory {
                 } else {
                     action = new Remove(player2, player1, game);
                 }
-
             }
             else if (!player.tokensPlaced()) {
                 System.out.println("Creating place action...");

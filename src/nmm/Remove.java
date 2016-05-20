@@ -18,33 +18,27 @@ public class Remove extends Action {
 
     @Override
     public void updateAction(Point p) {
-        Intersection intersectionSelected = getGame().getBoard().getIntersection(p);
+        //get the intersection that the user has clicked
+        Intersection intersectionSelected = game.getBoard().getIntersection(p);
 
-        if (!intersectionSelected.isEmpty() && victimPlayer.getTokens().contains(intersectionSelected.getToken()) && !intersectionSelected.getToken().isInMill()) {
-            setFinalIntersection(intersectionSelected);
-            setComplete(true);
-            System.out.println("Removed token from " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
-            removedMillCount = getFinalIntersection().getToken().getMillCount();
-            victimPlayer.getTokens().remove(getFinalIntersection().getToken());
-            getPlayer().removeToken(getFinalIntersection());
-            getGame().notifyActionUpdate();
-        } else if (!intersectionSelected.isEmpty() && victimPlayer.getTokens().contains(intersectionSelected.getToken()) && victimPlayer.allInMill()) {
-            setFinalIntersection(intersectionSelected);
-            setComplete(true);
-            System.out.println("Removed token from " + getFinalIntersection().getPoint().getX() + ", " + getFinalIntersection().getPoint().getY());
-            removedMillCount = getFinalIntersection().getToken().getMillCount();
-            victimPlayer.getTokens().remove(getFinalIntersection().getToken());
-            getPlayer().removeToken(getFinalIntersection());
-            getGame().notifyActionUpdate();
+        //if the intersection is not empty, the intersection holds a token that belongs to the victim player, and the token is either not in a mill or the player has all tokens in a mill
+        if (!intersectionSelected.isEmpty() && victimPlayer.getTokens().contains(intersectionSelected.getToken()) && (!intersectionSelected.getToken().isInMill() || victimPlayer.allInMill()) ) {
+            finalIntersection = intersectionSelected;
+            complete = true;
+            removedMillCount = finalIntersection.getToken().getMillCount();
+            victimPlayer.getTokens().remove(finalIntersection.getToken());
+            player.removeToken(finalIntersection);
+            game.notifyActionUpdate();
         }
     }
 
     @Override
     public void undo() {
-        setComplete(false);
+        complete = false;
         victimPlayer.addToken(getFinalIntersection());
-        getFinalIntersection().getToken().setMillCount(removedMillCount);
-        getGame().notifyActionUpdate();
+        finalIntersection.getToken().setMillCount(removedMillCount);
+        finalIntersection = null;
+        game.notifyActionUpdate();
     }
 
     @Override

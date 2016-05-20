@@ -9,15 +9,10 @@ public class Token {
     private int millCount;
     private String color;
 
-    public Token(Intersection intersection, String color) {
+    public Token(String color) {
         millCount = 0;
-        intersection.setToken(this);
         selected = false;
         this.color = color;
-    }
-
-    public void setIntersection(Intersection intersection) {
-        intersection.setToken(this);
     }
 
     public void setSelected(Boolean selected) {
@@ -46,5 +41,10 @@ public class Token {
 
     public void setMillCount(int millCount) {
         this.millCount = millCount;
+    }
+
+    @Override
+    public String toString() {
+        return color;
     }
 }
