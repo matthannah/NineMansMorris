@@ -5,35 +5,45 @@ package nmm;
  */
 public class Human extends Player {
 
-    public Human(Boolean player1, Boolean human) {
-        super(player1, human);
+    public Human(String name) {
+        super(name);
     }
 
     @Override
     public void placeToken(Intersection intersection) {
-        Token placedToken = new Token(intersection, isPlayer1());
-        placedToken.setIntersection(intersection);
-        getTokens().add(placedToken);
-        incrementPlacedCount();
-        if (getPlacedCount() > 8) {
-            setTokensPlaced(true);
+        Token placedToken;
+        //check whether you're player1 or player2 and create a token accordingly
+        if (this.toString().equals("PLAYER1")) {
+            placedToken = new Token("RED");
+        } else {
+            placedToken = new Token("BLUE");
+        }
+        //place the token on the intersection
+        intersection.setToken(placedToken);
+        //add the token to your collection of tokens
+        tokens.add(placedToken);
+        placedCount++;
+        if (placedCount > 8) {
+            tokensPlaced = true;
         }
     }
 
     @Override
-    public void slideToken(Intersection startIntersection, Intersection finalIntersection) {
-        startIntersection.getToken().setIntersection(finalIntersection);
-        startIntersection.setToken(null);
-    }
-
-    @Override
     public void removeToken(Intersection intersection) {
-        intersection.getToken().removeToken(intersection);
+        //remove the reference to the token
+        intersection.setToken(null);
     }
 
     @Override
-    public void hopToken(Intersection startIntersection, Intersection finalIntersection) {
-        startIntersection.getToken().setIntersection(finalIntersection);
+    public void moveToken(Intersection startIntersection, Intersection finalIntersection) {
+        //set the tokens position
+        finalIntersection.setToken(startIntersection.getToken());
+        //remove the reference to the token from the startIntersection
         startIntersection.setToken(null);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

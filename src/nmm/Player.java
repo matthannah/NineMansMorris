@@ -8,28 +8,24 @@ import java.util.List;
  */
 public abstract class Player {
 
-    private List<Token> tokens = new ArrayList<>();
-    private int placedCount;
-    private Boolean tokensPlaced;
-    private Boolean turn;
-    private Boolean player1;
-    private Boolean human;
+    protected List<Token> tokens = new ArrayList<>();
+    protected int placedCount;
+    protected Boolean tokensPlaced;
+    protected String name;
 
-    public Player(Boolean player1, Boolean human) {
+    public Player(String name) {
         placedCount = 0;
-        this.human = human;
-        this.player1 = player1;
         tokensPlaced = false;
-        turn = false;
+        this.name = name;
     }
 
     public abstract void placeToken(Intersection intersection);
 
-    public abstract void slideToken(Intersection startIntersection, Intersection finalIntersection);
-
     public abstract void removeToken(Intersection intersection);
 
-    public abstract void hopToken(Intersection startIntersection, Intersection finalIntersection);
+    public abstract void moveToken(Intersection startIntersection, Intersection finalIntersection);
+
+    public abstract String toString();
 
     public Boolean tokensPlaced() {
         return tokensPlaced;
@@ -43,36 +39,12 @@ public abstract class Player {
         return tokens.size();
     }
 
-    public void setTurn(Boolean turn) {
-        this.turn = turn;
-    }
-
-    public Boolean isTurn() {
-        return turn;
-    }
-
     public void setTokensPlaced(Boolean tokensPlaced) {
         this.tokensPlaced = tokensPlaced;
     }
 
-    public Boolean isPlayer1() {
-        return player1;
-    }
-
-    public Boolean isHuman() {
-        return human;
-    }
-
-    public void incrementPlacedCount() {
-        placedCount++;
-    }
-
     public void decrementPlacedCount() {
         placedCount--;
-    }
-
-    public int getPlacedCount() {
-        return placedCount;
     }
 
     public Boolean allInMill() {
@@ -86,7 +58,12 @@ public abstract class Player {
     }
 
     public void addToken(Intersection intersection) {
-        Token token = new Token(intersection, isPlayer1());
+        Token token;
+        if (this.toString().equals("PLAYER1")) {
+            token = new Token("RED");
+        } else {
+            token = new Token("BLUE");
+        }
         tokens.add(token);
         intersection.setToken(token);
     }

@@ -7,10 +7,10 @@ import java.awt.*;
  */
 public abstract class Action{
 
-    private Player player;
-    private Boolean complete;
-    private Game game;
-    private Intersection finalIntersection;
+    protected Player player;
+    protected Boolean complete;
+    protected Game game;
+    protected Intersection finalIntersection;
 
     public Action(Player player, Game game) {
         this.game = game;
@@ -18,13 +18,8 @@ public abstract class Action{
         complete = false;
     }
 
-    public void start(Board board) {
-        if (getPlayer().isHuman()) {
-            getPlayer().setTurn(true);
-        } else {
-            runAIAction();
-        }
-    }
+    @Override
+    public abstract String toString();
 
     public abstract void updateAction(Point p);
 
@@ -36,23 +31,11 @@ public abstract class Action{
         return player;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void setComplete(Boolean complete) {
-        this.complete = complete;
-    }
-
     public Boolean isComplete() {
         return complete;
     }
 
     public Intersection getFinalIntersection() {
         return finalIntersection;
-    }
-
-    public void setFinalIntersection(Intersection finalIntersection) {
-        this.finalIntersection = finalIntersection;
     }
 }

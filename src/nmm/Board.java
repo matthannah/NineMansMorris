@@ -335,44 +335,39 @@ public class Board {
             intersectionsCol.add(intersections.get("g4"));
             intersectionsCol.add(intersections.get("g7"));
         }
-
         return intersectionsCol;
     }
 
     public Boolean isMillEvent(Action lastAction) {
+        //get a list of row and col intersections where that the last action occurred
         List<Intersection> intersectionsRow = getIntersectionsInRow(lastAction.getFinalIntersection().getPoint().getX(), lastAction.getFinalIntersection().getPoint().getY());
         List<Intersection> intersectionsCol = getIntersectionsInCol(lastAction.getFinalIntersection().getPoint().getX(), lastAction.getFinalIntersection().getPoint().getY());
-        int i = 0;
-        int j = 0;
-        Boolean millEvent = false;
-
-        for (Intersection intersection : intersectionsRow) {
-            if (intersection.getToken() != null) {
-                if (intersection.getToken().isPlayer1() == lastAction.getPlayer().isPlayer1()) {
-                    i++;
-                }
-            }
-        }
-        if (i > 2) {
-            millEvent = true;
-            for (Intersection intersection : intersectionsRow) {
-                intersection.getToken().incrementMillCount();
-            }
-        }
-
-        for (Intersection intersection : intersectionsCol) {
-            if (intersection.getToken() != null) {
-                if (intersection.getToken().isPlayer1() == lastAction.getPlayer().isPlayer1()) {
-                    j++;
-                }
-            }
-        }
-        if (j > 2) {
-            millEvent = true;
-            for (Intersection intersection : intersectionsCol) {
-                intersection.getToken().incrementMillCount();
-            }
+        Boolean millEvent = isMill(intersectionsRow, lastAction.getPlayer());
+        if(millEvent) {
+            //make sure to check if 2 mill events were made by a move (this can happen)
+            isMill(intersectionsCol, lastAction.getPlayer());
+        } else {
+            millEvent = isMill(intersectionsCol, lastAction.getPlayer());
         }
         return millEvent;
+    }
+
+    public Boolean isMill(List<Intersection> intersections, Player player) {
+        int i = 0;
+        //for each token in the list that belongs to the player increment i
+        for (Intersection intersection : intersections) {
+            if (intersection.getToken() != null && player.getTokens().contains(intersection.getToken())) {
+                i++;
+            }
+        }
+
+        //if there was 3 tokens found, then a mill has occurred
+        if (i > 2) {
+            for (Intersection intersection : intersections) {
+                intersection.getToken().incrementMillCount();
+            }
+            return true;
+        }
+        return false;
     }
 }

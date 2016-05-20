@@ -5,26 +5,14 @@ package nmm;
  */
 
 public class Token {
-    private Intersection intersection;
-    private Boolean player1;
     private Boolean selected;
     private int millCount;
+    private String color;
 
-    public Token(Intersection intersection, Boolean player1) {
+    public Token(String color) {
         millCount = 0;
-        this.player1 = player1;
-        this.intersection = intersection;
-        intersection.setToken(this);
         selected = false;
-    }
-
-    public void setIntersection(Intersection intersection) {
-        this.intersection = intersection;
-        intersection.setToken(this);
-    }
-
-    public Boolean isPlayer1() {
-        return player1;
+        this.color = color;
     }
 
     public void setSelected(Boolean selected) {
@@ -33,11 +21,6 @@ public class Token {
 
     public Boolean isSelected() {
         return selected;
-    }
-
-    public void removeToken(Intersection intersection) {
-        intersection.setToken(null);
-        this.intersection = null;
     }
 
     public void incrementMillCount() {
@@ -58,5 +41,10 @@ public class Token {
 
     public void setMillCount(int millCount) {
         this.millCount = millCount;
+    }
+
+    @Override
+    public String toString() {
+        return color;
     }
 }
