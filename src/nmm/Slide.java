@@ -4,16 +4,26 @@ import java.awt.*;
 import java.util.List;
 
 /**
- * Created by Matt on 5/05/2016.
+ * A slide action that slides a players token to an adjacent
+ * empty intersection
+ *
+ * @author  Matthew Hannah
+ * @version 1.0
+ * @since 1.0
  */
 public class Slide extends Action {
+    private Intersection startIntersection; //the intersection the token started at
 
-    private Intersection startIntersection;
-
+    /**
+     * @inheritDoc
+     */
     public Slide(Player player, Game game) {
         super(player, game);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void updateAction(Point p) {
         //get the intersection that the user has clicked
@@ -62,6 +72,9 @@ public class Slide extends Action {
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void undo() {
         complete = false;
@@ -74,11 +87,19 @@ public class Slide extends Action {
         game.notifyActionUpdate();
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void runAIAction() {
 
     }
 
+    /**
+     * returns the start intersection of the move
+     *
+     * @return startIntersection    the starting intersection
+     */
     public Intersection getStartIntersection() {
         return startIntersection;
     }

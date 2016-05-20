@@ -3,16 +3,26 @@ package nmm;
 import java.awt.*;
 
 /**
- * Created by Matt on 5/05/2016.
+ * A hop action that allows a players token to move from
+ * its starting position to any empty intersection on the board
+ *
+ * @author  Matthew Hannah
+ * @version 1.0
+ * @since 1.0
  */
 public class Hop extends Action {
+    private Intersection startIntersection; //the intersection the token started at
 
-    private Intersection startIntersection;
-
+    /**
+     * @inheritDoc
+     */
     public Hop(Player player, Game game) {
         super(player, game);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void updateAction(Point p) {
         //get the intersection that the user has clicked
@@ -61,6 +71,9 @@ public class Hop extends Action {
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void undo() {
         complete = false;
@@ -73,11 +86,19 @@ public class Hop extends Action {
         game.notifyActionUpdate();
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void runAIAction() {
 
     }
 
+    /**
+     * returns the start intersection of the move
+     *
+     * @return startIntersection    the starting intersection
+     */
     public Intersection getStartIntersection() {
         return startIntersection;
     }

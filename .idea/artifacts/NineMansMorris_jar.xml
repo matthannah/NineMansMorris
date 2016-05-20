@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="NineMansMorris:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/NineMansMorris_jar</output-path>
+    <root id="archive" name="NineMansMorris.jar">
+      <element id="module-output" name="NineMansMorris" />
+    </root>
+  </artifact>
+</component>

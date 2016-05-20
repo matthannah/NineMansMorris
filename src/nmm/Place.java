@@ -3,14 +3,25 @@ package nmm;
 import java.awt.*;
 
 /**
- * Created by Matt on 5/05/2016.
+ * A place action that places a players token onto an empty intersection
+ * on the board
+ *
+ * @author  Matthew Hannah
+ * @version 1.0
+ * @since 1.0
  */
 public class Place extends Action {
 
+    /**
+     * @inheritDoc
+     */
     public Place(Player player, Game game) {
         super(player, game);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void updateAction(Point p) {
         //get the intersection that the user has clicked
@@ -25,6 +36,9 @@ public class Place extends Action {
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void undo() {
         complete = false;
@@ -37,6 +51,9 @@ public class Place extends Action {
         game.notifyActionUpdate();
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void runAIAction() {
 

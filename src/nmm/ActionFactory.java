@@ -1,10 +1,25 @@
 package nmm;
 
 /**
- * Created by Matt on 6/05/2016.
+ * The action factory is responsible for returning an action depending on the
+ * state of the game.
+ *
+ * @author  Matthew Hannah
+ * @version 1.0
+ * @since 1.0
  */
 public class ActionFactory {
 
+    /**
+     * returns an action to be performed by a player, depending on the
+     * last action taken, and the state of the game.
+     *
+     * @param lastAction    the last action that has occurred in the game
+     * @param player1       Player 1 in the game
+     * @param player2       Player 2 in the game
+     * @param game          the game object
+     * @return action       a new action created by the factory
+     */
     public Action getAction(Action lastAction, Player player1, Player player2, Game game) {
         Player player;
         Action action;

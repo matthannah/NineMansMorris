@@ -14,7 +14,13 @@ import java.util.List;
 import static javax.swing.SwingConstants.CENTER;
 
 /**
- * Created by Matt on 5/05/2016.
+ * The class that publishes the current state of the game/menu
+ * implemented as a java gui. Also listens for user input, and will
+ * act accordingly.
+ *
+ * @author  Matthew Hannah
+ * @version 1.0
+ * @since 1.0
  */
 public class Event extends JFrame implements MouseListener {
 
@@ -61,9 +67,11 @@ public class Event extends JFrame implements MouseListener {
     Point g4;
     Point g7;
 
+    /**
+     * constructor for Event object
+     */
     public Event(Menu menu) {
         super("Nine Man's Morris");
-
         this.menu = menu;
 
         //add panels to the frame
@@ -258,20 +266,43 @@ public class Event extends JFrame implements MouseListener {
         g7 = new Point(boardPanel.getWidth() - PADDING, PADDING);
     }
 
+    /**
+     * starts a new game to display, resets game history if any
+     *
+     * @param game      the game object to draw
+     */
     public void newGame(Game game) {
         history = "";
         this.game = game;
         undoMoveButton.setEnabled(true);
     }
 
+    /**
+     * checks if the user wants to play against a computer
+     *
+     * @return Boolean  true/false whether or not a computer player is selected
+     */
     public Boolean isComputer() {
         return computerCheckBox.isSelected();
     }
 
+    /**
+     * checks whether an x, y point is in a specific circle
+     *
+     * @param p         the point to check
+     * @param circle    the circle
+     * @return Boolean  true/false whether or not the point is inside the circle
+     */
     public Boolean inCircle(Point p, Point circle) {
         return (p.getX() - circle.getX())*(p.getX() - circle.getX()) + (p.getY() - circle.getY())*(p.getY() - circle.getY()) < CIRCLE_RADIUS*CIRCLE_RADIUS;
     }
 
+    /**
+     * returns a point that matches the input point
+     *
+     * @param p                 the input x,y point
+     * @return intersection     the point of an intersection that matches the input
+     */
     public Point getPoint(Point p) {
         if (p.getX() == 1 && p.getY() == 1) {
             return a1;
@@ -348,6 +379,13 @@ public class Event extends JFrame implements MouseListener {
         return null;
     }
 
+    /**
+     * checks whether or not the user has selected an intersection
+     *
+     * @param p                 the point selected on the board
+     * @return intersection     an intersection point on the board
+     *                          null if none were clicked
+     */
     public Point getIntersection(Point p) {
         if (inCircle(p, a1)) {
             return new Point(1, 1);
@@ -424,12 +462,22 @@ public class Event extends JFrame implements MouseListener {
         return null;
     }
 
+    /**
+     * displays that a game has completed and disables the undo button
+     *
+     * @param message   A victory message to display
+     */
     public void gameComplete(String message) {
         actionLabel.setText(message);
         history = history + "\n\n" + message;
         undoMoveButton.setEnabled(false);
     }
 
+    /**
+     * updates the UI given an action that has been updated
+     *
+     * @param action    the action to publish to the screen
+     */
     public void updateUI(Action action) {
         if (action != null){
             Player player = action.getPlayer();
@@ -457,6 +505,12 @@ public class Event extends JFrame implements MouseListener {
         repaint();
     }
 
+    /**
+     * updates the UI to let the players know whose turn it is
+     * as well as what turn to make
+     *
+     * @param action    the action for the player to perform
+     */
     public void updateActionLabel(Action action) {
         if (action.getPlayer().toString().equals("PLAYER1")) {
             actionLabel.setBackground(new Color(255, 204, 204));
@@ -474,6 +528,13 @@ public class Event extends JFrame implements MouseListener {
     public void mousePressed(MouseEvent e) {
     }
 
+    /**
+     * processes a mouse release event and checks if the location
+     * clicked was an intersection, if so it will pass the input on
+     * to the game object
+     *
+     * @param e     the mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         if (game != null) {

@@ -1,21 +1,31 @@
 package nmm;
 
 import java.awt.*;
-import java.util.List;
 
 /**
- * Created by Matt on 5/05/2016.
+ * A remove action that allows a player to remove an opposing players
+ * token from an intersection on the board
+ *
+ * @author  Matthew Hannah
+ * @version 1.0
+ * @since 1.0
  */
 public class Remove extends Action {
 
     private Player victimPlayer;
     private int removedMillCount;
 
+    /**
+     * @inheritDoc
+     */
     public Remove(Player player, Player victimPlayer, Game game) {
         super(player, game);
         this.victimPlayer = victimPlayer;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void updateAction(Point p) {
         //get the intersection that the user has clicked
@@ -32,6 +42,9 @@ public class Remove extends Action {
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void undo() {
         complete = false;
@@ -41,6 +54,9 @@ public class Remove extends Action {
         game.notifyActionUpdate();
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void runAIAction() {
 

@@ -1,14 +1,25 @@
 package nmm;
 
 /**
- * Created by Matt on 5/05/2016.
+ * A type of player, Human, that is responsible for the management
+ * of their tokens
+ *
+ * @author  Matthew Hannah
+ * @version 1.0
+ * @since 1.0
  */
 public class Human extends Player {
 
+    /**
+     * @inheritDoc
+     */
     public Human(String name) {
         super(name);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void placeToken(Intersection intersection) {
         Token placedToken;
@@ -28,12 +39,18 @@ public class Human extends Player {
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void removeToken(Intersection intersection) {
         //remove the reference to the token
         intersection.setToken(null);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void moveToken(Intersection startIntersection, Intersection finalIntersection) {
         //set the tokens position

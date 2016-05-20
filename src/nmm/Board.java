@@ -5,13 +5,21 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Created by Matt on 5/05/2016.
+ * This class is a virtualization of the nine man's morris board.
+ * The board is responsible for linking up all its intersections as well
+ * as managing them
+ *
+ * @author  Matthew Hannah
+ * @version 1.0
+ * @since 1.0
  */
 public class Board {
+    private Map<String, Intersection> intersections = new HashMap<>(); //a map of all the intersections on the board
+    private List<String> intersectionIDs = new ArrayList<>(); //a convenient list of intersection IDs to access each intersection logically
 
-    private Map<String, Intersection> intersections = new HashMap<>();
-    private List<String> intersectionIDs = new ArrayList<>();
-
+    /**
+     * constructor for Board object
+     */
     public Board() {
         intersections.put("a1", new Intersection(new Point(1,1)));
         intersections.put("a4", new Intersection(new Point(1,4)));
@@ -226,6 +234,15 @@ public class Board {
         intersections.get("g7").setAdjacentIntersections(adjacents);
     }
 
+    /**
+     * returns an intersection given an X,Y point,
+     * this method is a convenient way to convert user input
+     * to an intersection
+     *
+     * @param p                 the user input
+     * @return intersection     an intersection corresponding to the point
+     *                          null if input not valid
+     */
     public Intersection getIntersection(Point p) {
         for (String intersectionID : intersectionIDs) {
             //find one that has the corresponding point
@@ -236,18 +253,43 @@ public class Board {
         return null;
     }
 
+    /**
+     * returns the intersectionIDs
+     *
+     * @return intersectionIDs  the list of intersectionIDs
+     */
     public List<String> getIntersectionIDs() {
         return intersectionIDs;
     }
 
+    /**
+     * returns the mapping of intersections
+     *
+     * @return intersections    the intersections on the board
+     */
     public Map<String, Intersection> getIntersections() {
         return intersections;
     }
 
+    /**
+     * checks if an intersection is adjacent to another
+     *
+     *@param intersection1  intersection to check adjacency
+     *@param intersection2  intersection to check adjacency
+     *@return Boolean      true/false whether or not the intersections
+     *                      were adjacent
+     */
     public Boolean isAdjacent(Intersection intersection1, Intersection intersection2) {
         return (intersection1.getAdjacentIntersections().contains(intersection2));
     }
 
+    /**
+     * returns a list of intersections that are in a specific row
+     *
+     * @param col                   the column to get intersections from
+     * @param row                   the row to get intersections from
+     * @return intersectionsRow     the intersections in the row
+     */
     public List<Intersection> getIntersectionsInRow(double col, double row) {
         List<Intersection> intersectionsRow = new ArrayList<>();
         if (row == 1 && (col == 1 || col == 4 || col == 7)) {
@@ -293,6 +335,13 @@ public class Board {
         return intersectionsRow;
     }
 
+    /**
+     * returns a list of intersections that are in a specific column
+     *
+     * @param col                   the column to get intersections from
+     * @param row                   the row to get intersections from
+     * @return intersectionsCol     the intersections in the column
+     */
     public List<Intersection> getIntersectionsInCol(double col, double row) {
         List<Intersection> intersectionsCol = new ArrayList<>();
         if (col == 1 && (row == 1 || row == 4 || row == 7)) {
@@ -338,6 +387,12 @@ public class Board {
         return intersectionsCol;
     }
 
+    /**
+     * checks if a mill event has occurred given the last action that occurred
+     *
+     * @param lastAction    the last action that occurred in the game
+     * @return millEvent    true/false whether or not a mill event occurred
+     */
     public Boolean isMillEvent(Action lastAction) {
         //get a list of row and col intersections where that the last action occurred
         List<Intersection> intersectionsRow = getIntersectionsInRow(lastAction.getFinalIntersection().getPoint().getX(), lastAction.getFinalIntersection().getPoint().getY());
@@ -352,6 +407,15 @@ public class Board {
         return millEvent;
     }
 
+    /**
+     * checks if a list of intersections all contain tokens that belong
+     * to a specific player; a mill
+     *
+     * @param intersections     a list of intersections to check
+     * @param player            the player to check
+     * @return Boolean          true/false whether or not the intersections
+     *                          are in a mill with the player
+     */
     public Boolean isMill(List<Intersection> intersections, Player player) {
         int i = 0;
         //for each token in the list that belongs to the player increment i
