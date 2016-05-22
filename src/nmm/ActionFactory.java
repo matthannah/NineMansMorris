@@ -10,39 +10,46 @@ package nmm;
  */
 public class ActionFactory {
 
+    private Game game;
+
+    /**
+     * constructor for action factory
+     *
+     * @param game  the game object
+     */
+    public ActionFactory(Game game) {
+        this.game = game;
+    }
+
     /**
      * returns an action to be performed by a player, depending on the
      * last action taken, and the state of the game.
      *
-     * @param lastAction    the last action that has occurred in the game
-     * @param player1       Player 1 in the game
-     * @param player2       Player 2 in the game
-     * @param game          the game object
      * @return action       a new action created by the factory
      */
-    public Action getAction(Action lastAction, Player player1, Player player2, Game game) {
+    public Action getAction() {
         Player player;
         Action action;
         
         //first turn
-        if (lastAction == null) {
+        if (game.getCurrentAction() == null) {
             System.out.println("Creating place action...");
-            action = new Place(player1, game);
+            action = new Place(game.getPlayer1(), game);
         } else {
             //determine player turn
-            if (lastAction.getPlayer() == player1) {
-                player = player2;
+            if (game.getCurrentAction().getPlayer() == game.getPlayer1()) {
+                player = game.getPlayer2();
             } else {
-                player = player1;
+                player = game.getPlayer1();
             }
 
             //determine action
-            if (game.getBoard().isMillEvent(lastAction)) {
+            if (game.getBoard().isMillEvent(game.getCurrentAction())) {
                 System.out.println("Creating remove action...");
-                if (lastAction.getPlayer().toString().equals("PLAYER1")) {
-                    action = new Remove(player1, player2, game);
+                if (game.getCurrentAction().getPlayer() == game.getPlayer1()) {
+                    action = new Remove(game.getPlayer1(), game.getPlayer2(), game);
                 } else {
-                    action = new Remove(player2, player1, game);
+                    action = new Remove(game.getPlayer2(), game.getPlayer1(), game);
                 }
             }
             else if (!player.tokensPlaced()) {

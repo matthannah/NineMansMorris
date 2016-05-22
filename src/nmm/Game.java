@@ -28,7 +28,7 @@ public class Game {
     public Game(Event event) {
         this.event = event;
         board = new Board();
-        actionFactory = new ActionFactory();
+        actionFactory = new ActionFactory(this);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Game {
             player1 = new Human("PLAYER1");
             player2 = new Human("PLAYER2");
             event.updateUI(null);
-            actions.add(actionFactory.getAction(null, player1, player2, this));
+            actions.add(new Place(player1, this));
             event.updateActionLabel(getCurrentAction());
         }
     }
@@ -66,7 +66,7 @@ public class Game {
         }
         else if (getCurrentAction().isComplete())
         {
-            actions.add(actionFactory.getAction(getCurrentAction(), player1, player2, this));
+            actions.add(actionFactory.getAction());
             if (getCurrentAction() == null) { //there was no more valid moves
                 if (actions.get(actions.size()-2).getPlayer() == player1) {
                     event.gameComplete("----Player 1 wins----");
@@ -118,5 +118,23 @@ public class Game {
      */
     public Board getBoard() {
         return board;
+    }
+
+    /**
+     * returns the player1 object
+     *
+     * @return  the player
+     */
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    /**
+     * returns the player2 object
+     *
+     * @return  the player
+     */
+    public Player getPlayer2() {
+        return player2;
     }
 }

@@ -49,6 +49,7 @@ public class Place extends Action {
         if(player.tokensPlaced()) {
             player.setTokensPlaced(false);
         }
+        player.getTokens().remove(player.getTokenCount()-1);
         finalIntersection = null;
         game.notifyActionUpdate();
     }

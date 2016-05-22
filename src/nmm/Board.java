@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * This class is a virtualization of the nine man's morris board.
  * The board is responsible for linking up all its intersections as well
- * as managing them
+ * as managing them. Additionally, the board will check for a mill event
  *
  * @author  Matthew Hannah
  * @version 1.0
